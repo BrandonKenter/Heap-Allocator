@@ -7,7 +7,6 @@ public class Header {
     boolean pBit;
     boolean aBit;
 
-
     @Override
     public String toString() {
         return ("Index: " + idx + " Size: " + size);
