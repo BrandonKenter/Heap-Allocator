@@ -16,7 +16,6 @@ public class Controller extends ButtonsAndLabels {
     int all = 0;
 
 
-
     /**
      * Method for allocating 'size' bytes of heap memory.
      * Argument size: Requested size for the payload
@@ -141,11 +140,9 @@ public class Controller extends ButtonsAndLabels {
             }
             // Current block is allocated or not big enough, iterate to next block header.
 
-
             Heap.current = Heap.bytes[Heap.current.idx + Heap.current.size];
         }
     }
-
     private void color() {
         for (int i = 0; i < Heap.bytes.length; i++) {
             if (Heap.bytes[i] != null && Heap.bytes[i].aBit) {
@@ -193,7 +190,6 @@ public class Controller extends ButtonsAndLabels {
             }
         }
     }
-
     /**
      * Method for freeing up a previously allocated block.
      * Argument ptr: address of the block to be freed up.
@@ -237,5 +233,4 @@ public class Controller extends ButtonsAndLabels {
             return;
         }
     }
-
 }
