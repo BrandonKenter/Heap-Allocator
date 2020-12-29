@@ -4,8 +4,8 @@ public class Header {
     public int idx;
     public int size;
     public int prevSize;
-    boolean pBit;
-    boolean aBit;
+    public boolean pBit;
+    public boolean aBit;
 
     @Override
     public String toString() {

@@ -2,18 +2,21 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import java.io.IOException;
-import java.util.Objects;
+import javafx.scene.control.SpinnerValueFactory;
 
-public class Controller extends ButtonsAndLabels {
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
+
+
+public class Controller extends ButtonsAndLabels implements Initializable {
     int allocsize = 64;
     int all = 0;
+
 
 
     /**
@@ -31,14 +34,7 @@ public class Controller extends ButtonsAndLabels {
      *
      */
     public void allocBtnClicked0(ActionEvent event) throws IOException {
-        int size = 0;
-        if (all == 1) {
-            Heap heap = new Heap();
-            size = 0;
-        }
-        if (all == 2) {
-            size = 0;
-        }
+        int size = (int) allocSpinner.getValue();
 
         // Get size wanted to be allocated
 
@@ -47,10 +43,11 @@ public class Controller extends ButtonsAndLabels {
         // Make sure requested space < available space
         if (size > allocsize - 4) {
             // Requested is too much
+            return;
         }
         // Make sure requested space > 0
         if (size <= 0) {
-            // Request is too little
+            return;
         }
 
         // If first allocation, set heapRecent and current
@@ -112,7 +109,6 @@ public class Controller extends ButtonsAndLabels {
                     Heap.current.aBit = true;
 
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
-                    all += 1;
                     color();
                     return;
                 }
@@ -140,56 +136,237 @@ public class Controller extends ButtonsAndLabels {
             }
             // Current block is allocated or not big enough, iterate to next block header.
 
+
             Heap.current = Heap.bytes[Heap.current.idx + Heap.current.size];
         }
     }
-    private void color() {
-        for (int i = 0; i < Heap.bytes.length; i++) {
-            if (Heap.bytes[i] != null && Heap.bytes[i].aBit) {
-                int j = Heap.bytes[i].size;
-                for (int z = i; z < j; z++) {
-                    switch(z) {
+
+    private void color() throws IOException {
+        System.out.println("Current INDEX: " + Heap.current.idx);
+        for (int i = Heap.current.idx; i < Heap.current.size; i++) {
+                    switch(i) {
                         case 0:
-                            bit0.setStyle("-fx-fill: #58FF36");
+                            bit0.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 1:
-                            bit1.setStyle("-fx-fill: #58FF36");
+                            bit1.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 2:
-                            bit2.setStyle("-fx-fill: #58FF36");
+                            bit2.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 3:
-                            bit3.setStyle("-fx-fill: #58FF36");
+                            bit3.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 4:
-                            bit4.setStyle("-fx-fill: #58FF36");
+                            bit4.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 5:
-                            bit5.setStyle("-fx-fill: #58FF36");
+                            bit5.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 6:
-                            bit6.setStyle("-fx-fill: #58FF36");
+                            bit6.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 7:
-                            bit7.setStyle("-fx-fill: #58FF36");
+                            bit7.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 8:
-                            bit8.setStyle("-fx-fill: #58FF36");
+                            bit8.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 9:
-                            bit9.setStyle("-fx-fill: #58FF36");
+                            bit9.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 10:
-                            bit10.setStyle("-fx-fill: #58FF36");
+                            bit10.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 11:
-                            bit11.setStyle("-fx-fill: #58FF36");
+                            bit11.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 12:
-                            bit12.setStyle("-fx-fill: #58FF36");
+                            bit12.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 13:
-                            bit13.setStyle("-fx-fill: #58FF36");
+                            bit13.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 14:
-                            bit14.setStyle("-fx-fill: #58FF36");
+                            bit14.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 15:
-                            bit15.setStyle("-fx-fill: #58FF36");
+                            bit15.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 16:
-                            bit16.setStyle("-fx-fill: #58FF36");
+                            bit16.setStyle("-fx-background-color: #58FF36");
+                            break;
                         case 17:
-                            bit17.setStyle("-fx-fill: #58FF36");
+                            bit17.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 18:
+                            bit18.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 19:
+                            bit19.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 20:
+                            bit20.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 21:
+                            bit21.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 22:
+                            bit22.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 23:
+                            bit23.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 24:
+                            bit24.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 25:
+                            bit25.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 26:
+                            bit26.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 27:
+                            bit27.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 28:
+                            bit28.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 29:
+                            bit29.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 30:
+                            bit30.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 31:
+                            bit31.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 32:
+                            bit32.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 33:
+                            bit33.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 34:
+                            bit34.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 35:
+                            bit35.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 36:
+                            bit36.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 37:
+                            bit37.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 38:
+                            bit38.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 39:
+                            bit39.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 40:
+                            bit40.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 41:
+                            bit41.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 42:
+                            bit42.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 43:
+                            bit43.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 44:
+                            bit44.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 45:
+                            bit45.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 46:
+                            bit46.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 47:
+                            bit47.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 48:
+                            bit48.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 49:
+                            bit49.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 50:
+                            bit50.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 51:
+                            bit51.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 52:
+                            bit52.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 53:
+                            bit53.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 54:
+                            bit54.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 55:
+                            bit55.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 56:
+                            bit56.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 57:
+                            bit57.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 58:
+                            bit58.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 59:
+                            bit59.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 60:
+                            bit60.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 61:
+                            bit61.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 62:
+                            bit62.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 63:
+                            bit63.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 64:
+                            bit64.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 65:
+                            bit65.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 66:
+                            bit66.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 67:
+                            bit67.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 68:
+                            bit68.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 69:
+                            bit69.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 70:
+                            bit70.setStyle("-fx-background-color: #58FF36");
+                            break;
+                        case 71:
+                            bit71.setStyle("-fx-background-color: #58FF36");
+                            break;
                     }
                 }
             }
-        }
-    }
+
+
+
     /**
      * Method for freeing up a previously allocated block.
      * Argument ptr: address of the block to be freed up.
@@ -232,5 +409,30 @@ public class Controller extends ButtonsAndLabels {
             Heap.bytes[Heap.current.idx] = null;
             return;
         }
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        allocSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10));
+
+        // Initialize heapStart
+        Heap.bytes[4] = new Header();
+        Heap.heapStart = Heap.bytes[4];
+        Heap.heapStart.idx = 4;
+        Heap.heapStart.aBit = false;
+        Heap.heapStart.pBit = true;
+        Heap.heapStart.size = 64;
+
+        // Initialize first reserved block
+        Heap.bytes[0] = new Header();
+        Heap.bytes[0].idx = 0;
+        Heap.bytes[0].aBit = true;
+        Heap.bytes[0].pBit = true;
+        Heap.bytes[0].size = 4;
+
+        // Initialize end of heap area
+        Heap.bytes[68] = new Header();
+        Heap.bytes[68].size = 1;
+        Heap.bytes[68].idx = 68;
     }
 }
