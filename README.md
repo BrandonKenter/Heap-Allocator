@@ -16,4 +16,4 @@ Working version not available yet
 - This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
 
 # Preview
-![alt text](https://i.gyazo.com/30146f3b9bb12ff2f0f835e5b5cf89d8.png)
+![alt text](https://i.gyazo.com/8336595d9e26765dede662026d2cae0e.png)
