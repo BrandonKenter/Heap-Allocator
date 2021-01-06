@@ -6,6 +6,7 @@ Visualization of general heap allocation processes performed by a heap allocator
 - Implement simulate functionality
 - Implement clear functionality
 - Support first-fit and best-fit placement policies
+- Test suite
 
 # Getting Started
 Working version not available yet
