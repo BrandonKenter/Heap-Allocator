@@ -7,11 +7,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-
 import java.awt.*;
 
 public class ButtonsAndLabels {
-
     @FXML
     public Label bit0;
     @FXML
@@ -157,7 +155,6 @@ public class ButtonsAndLabels {
     @FXML
     public Label bit71;
 
-
     @FXML
     public Ellipse status0;
     @FXML
@@ -198,14 +195,10 @@ public class ButtonsAndLabels {
     @FXML
     public Spinner allocSpinner;
 
-
     @FXML
     public Button allocateBtn;
     @FXML
     public Button freeBtn;
     @FXML
     public Button simulateBtn;
-
-
-
 }
