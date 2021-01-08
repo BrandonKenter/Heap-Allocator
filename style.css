@@ -1,10 +1,12 @@
 .bg {
     -fx-background-image: url("./images/66.png");
 }
+
 .cell {
     -fx-border-color:  #27cdae;
     -fx-border-width: 1;
 }
+
 #green {
     -fx-background-color:
         linear-gradient( #002003, #001302),
@@ -15,12 +17,14 @@
     -fx-text-fill: #27cdae;
     -fx-border-color: #27cdae;
 }
+
 #button {
     -fx-background-radius: 6, 5;
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: white;
 }
+
 .button:hover {
     -fx-background-color: #999999;
     -fx-scale-y: 1.1;
@@ -50,6 +54,3 @@
     -fx-background-insets: 0, 1;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
 }
-
-
-
