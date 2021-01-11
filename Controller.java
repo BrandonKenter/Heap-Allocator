@@ -2,14 +2,10 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.ResourceBundle;
-
 
 public class Controller extends ButtonsAndLabels implements Initializable {
     int allocsize = 64; // Size of the allocatable space in the block of memory
@@ -30,7 +26,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Updates header(s) as needed.
      *
      */
-    public void allocBtnClicked0(ActionEvent event) throws IOException {
+    public void allocBtnClicked0() {
         // Get size wanted to be allocated
         int size = Integer.parseInt((String) comboBoxAlloc.getValue());
 
@@ -87,7 +83,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
 
             // If free block with enough size is found
-            if ((Heap.current.aBit == "0") && (Heap.current.size >= headerPayloadSize)) {
+            if ((Heap.current.aBit.equals("0")) && (Heap.current.size >= headerPayloadSize)) {
 
                 // Split if possible (available size - alloc size >= alloc size + 8)
                 if (Heap.current.size - headerPayloadSize >= 8) {
@@ -179,7 +175,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         updateAllocColor(Heap.bytes[headerIdx].idx, Heap.bytes[headerIdx].size);
 
         // ---------- If next is not the end of the heap and is free, coalesce original and next ----------
-        if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1 && Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit == "0") {
+        if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1 && Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit.equals("0")) {
             clearHeaderCell(Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx);
             // Free next
             int nextSize = Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size;
@@ -197,7 +193,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         }
 
         // ---------- If previous is free, coalesce original and previous ---------- //
-        if (Heap.bytes[headerIdx].pBit == "0") {
+        if (Heap.bytes[headerIdx].pBit.equals("0")) {
             // Get size of previous block
             int prevBlockSize = Heap.bytes[headerIdx].prevSize;
             // Update size of previous block
@@ -208,9 +204,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             clearHeaderCell(headerIdx);
             updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
             // Update prevSize of next header if next is not at end of heap
-            if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size == 1) {
-            }
-            else {
+            if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1) {
                 Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].prevSize = Heap.bytes[Heap.bytes[headerIdx].idx].size + prevBlockSize;
             }
             // Free original header
@@ -224,6 +218,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         }
     }
 
+    // TODO IMPLEMENT
     /**
      * Method for
      *
@@ -332,6 +327,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     private void clearPointerAddressCell(int ptrIdx) {
     }
 
+    // TODO helper methods for switches
     /**
      * Method for setting the header cell.
      *
@@ -361,6 +357,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         }
         }
 
+        // TODO helper methods for switches
     /**
      * Method for updating the header cell.
      *
