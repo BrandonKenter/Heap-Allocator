@@ -2,12 +2,9 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
-import java.awt.*;
 
 public class ButtonsAndLabels {
     @FXML
@@ -193,7 +190,78 @@ public class ButtonsAndLabels {
     public Ellipse status17;
 
     @FXML
-    public Spinner allocSpinner;
+    public Label ptr0;
+    @FXML
+    public Label ptr1;
+    @FXML
+    public Label ptr2;
+    @FXML
+    public Label ptr3;
+    @FXML
+    public Label ptr4;
+    @FXML
+    public Label ptr5;
+    @FXML
+    public Label ptr6;
+    @FXML
+    public Label ptr7;
+    @FXML
+    public Label ptr8;
+    @FXML
+    public Label ptr9;
+    @FXML
+    public Label ptr10;
+    @FXML
+    public Label ptr11;
+    @FXML
+    public Label ptr12;
+    @FXML
+    public Label ptr13;
+    @FXML
+    public Label ptr14;
+    @FXML
+    public Label ptr15;
+    @FXML
+    public Label ptr16;
+    @FXML
+    public Label ptr17;
+
+    @FXML
+    public Label bits0;
+    @FXML
+    public Label bits1;
+    @FXML
+    public Label bits2;
+    @FXML
+    public Label bits3;
+    @FXML
+    public Label bits4;
+    @FXML
+    public Label bits5;
+    @FXML
+    public Label bits6;
+    @FXML
+    public Label bits7;
+    @FXML
+    public Label bits8;
+    @FXML
+    public Label bits9;
+    @FXML
+    public Label bits10;
+    @FXML
+    public Label bits11;
+    @FXML
+    public Label bits12;
+    @FXML
+    public Label bits13;
+    @FXML
+    public Label bits14;
+    @FXML
+    public Label bits15;
+    @FXML
+    public Label bits16;
+    @FXML
+    public Label bits17;
 
     @FXML
     public Button allocateBtn;
@@ -201,4 +269,9 @@ public class ButtonsAndLabels {
     public Button freeBtn;
     @FXML
     public Button simulateBtn;
+
+    @FXML
+    public ComboBox comboBoxAlloc;
+    @FXML
+    public ComboBox comboBoxFree;
 }
