@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -18,18 +17,15 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     public static Header current = null;
 
     /**
-     * Method for allocating 'size' bytes of heap memory.
-     * Argument size: Requested size for the payload
-     * Update cells upon block allocation success.
-     * Returns error if allocation fails.
+     * Allocates 'size' bytes of heap memory.
      *
      * This method:
      * - Checks size - Returns if not positive or if larger than heap space.
      * - Determines block size rounding up to a multiple of 8 and possibly adding padding as a result.
      * - Uses next-fit placement policy to choose a free block
-     * - Uses splitting to divide the hcosen free block into two if it is too large.
-     * - Updates header(s) as needed.
-     *
+     * - Uses splitting to divide the chosen free block into two if it is too large.
+     * - Updates headers as needed.
+     * - Update cells upon block allocation success.
      */
     public void allocBtnClicked0() throws InterruptedException {
         // Get size wanted to be allocated
@@ -78,8 +74,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 if (current.size == heapRecent.size && z >= 1) {
                     // Return, no block big enough
                     return;
-                }
-                else {
+                } else {
                     current = heapStart;
                     z += 1;
                     continue;
@@ -145,15 +140,12 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for freeing up a previously allocated block.
-     * Argument ptr: address of the block to be freed up.
-     * Returns positively on success.
-     * Returns negatively on failure.
+     * Frees up a previously allocated block.
      *
      * This method:
      * - Frees allocated blocks.
      * - Coalesces adjacent free blocks.
-     * - Updates headers as necessary.
+     * - Updates headers/pointer addresses as necessary.
      */
     public void freeButtonClicked() {
         if (comboBoxFree.getValue() == null) {
@@ -174,7 +166,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         // Update header, pointer address cells and block colors
         updateHeaderCell(0, headerIdx);
         updatePointerAddressCell(0, ptrIdx);
-        updateAllocColor(bytes[headerIdx].idx, bytes[headerIdx].size);
+        clearAllocColor(bytes[headerIdx].idx, bytes[headerIdx].size);
 
         // ---------- If next is not the end of the heap and is free, coalesce original and next ---------- //
         if (bytes[headerIdx + bytes[headerIdx].size].size != 1 && bytes[headerIdx + bytes[headerIdx].size].aBit.equals("0")) {
@@ -193,7 +185,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             // Update header, pointer address cells and block colors
             updateHeaderCell(1, headerIdx);
             updatePointerAddressCell(1, ptrIdx);
-            updateAllocColor(headerIdx, bytes[headerIdx].size);
+            clearAllocColor(headerIdx, bytes[headerIdx].size);
         }
         // Else if still not end of heap, but next block is not free, just update p-bit of next block
         if (bytes[headerIdx + bytes[headerIdx].size].size != 1) {
@@ -215,7 +207,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             updateHeaderCell(2, headerIdx - bytes[headerIdx].prevSize);
             updatePointerAddressCell(2, ptrIdx);
             clearHeaderCell(headerIdx);
-            updateAllocColor(headerIdx, bytes[headerIdx].size);
+            clearAllocColor(headerIdx, bytes[headerIdx].size);
 
             // Free original header
             bytes[bytes[headerIdx].idx].aBit = "0";
@@ -228,7 +220,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for
+     * Clears all of the status circles.
      *
      * This method:
      * -
@@ -253,13 +245,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for
+     * Sets the status circle during heap iteration.
      *
      * This method:
      * -
      */
-    private void updateStatusCircle(int headerIdx) {
-        switch(headerIdx) {
+    private void setStatusCircle(int headerIdx) {
+        switch (headerIdx) {
             case 4 -> status1.opacityProperty().set(1);
             case 8 -> status2.opacityProperty().set(1);
             case 12 -> status3.opacityProperty().set(1);
@@ -281,7 +273,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
     // TODO IMPLEMENT
     /**
-     * Method for
+     * Simulates an arbitrary sequence of allocation and free requests.
      *
      * This method:
      * -
@@ -291,7 +283,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
     /**
      * Method for setting the pointer address cell
-     *
+     * <p>
      * This method:
      * -
      */
@@ -300,8 +292,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         String hexAddress = Integer.toHexString(ptrIdx);
         if (headerIdx == 4) {
             comboBoxFree.getItems().add("0x_08");
-        }
-        else {
+        } else {
             comboBoxFree.getItems().add("0x_" + hexAddress);
         }
         Collections.sort(freeOptions);
@@ -328,10 +319,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
     // TODO REGION 2
     /**
-     * Method for updating the pointer address cell.
+     * Updates the pointer address cell.
      *
      * This method:
-     * -
+     * - Updates the text in a specific pointer address cell given the region and pointer index.
      */
     private void updatePointerAddressCell(int region, int ptrIdx) {
         if (region == 0) {
@@ -353,9 +344,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 60 -> ptr15.setText("");
                 case 64 -> ptr16.setText("");
             }
-        }
-        else if (region == 1) {
-            ptrIdx = bytes[bytes[ptrIdx - 4].idx +bytes[ptrIdx - 4].size].idx;
+        } else if (region == 1) {
+            ptrIdx = bytes[bytes[ptrIdx - 4].idx + bytes[ptrIdx - 4].size].idx;
             switch (ptrIdx) {
                 case 4 -> ptr1.setText("");
                 case 8 -> ptr2.setText("");
@@ -379,20 +369,20 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
     // TODO IMPLEMENT
     /**
-     * Method for clearing the pointer address cell.
+     * Clears the pointer address cell.
      *
      * This method:
-     * -
+     * - Clears the text in a specific pointer address cell given the pointer index.
      */
     private void clearPointerAddressCell(int ptrIdx) {
     }
 
     // TODO HELPER METHOD FOR SWITCHES
     /**
-     * Method for setting the header cell.
+     * Sets the header cell.
      *
      * This method:
-     * -
+     * - Sets the text in a specific header cell given the header index.
      */
     private void setHeaderCell(int headerIdx) {
         String size = String.valueOf(bytes[headerIdx].size);
@@ -419,10 +409,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
     // TODO HELPER METHOD FOR SWITCHES
     /**
-     * Method for updating the header cell.
+     * Updates the header cell.
      *
      * This method:
-     * -
+     * - Updates the text in a specific header cell given the header index.
      */
     private void updateHeaderCell(int region, int headerIdx) {
         //------------------ MIDDLE FREE ------------------
@@ -546,10 +536,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for clearing the header cell.
+     * Clears the header cell.
      *
      * This method:
-     * -
+     * - Clears the text in a specific header cell given the header index.
      */
     private void clearHeaderCell(int headerIdx) {
         switch (headerIdx) {
@@ -573,13 +563,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for setting the allocated color.
+     * Sets the allocated color of a cell.
      *
      * This method:
-     * -
+     * - Iterates through a region and sets the color of each cell in the region.
      */
-    private void setAllocColor(int idx, int size) {
-        for (int i = idx; i < idx + size; i++) {
+    private void setAllocColor(int startIdx, int size) {
+        for (int i = startIdx; i < startIdx + size; i++) {
             switch (i) {
                 case 0 -> bit0.setStyle("-fx-background-color: #008244");
                 case 1 -> bit1.setStyle("-fx-background-color: #008244");
@@ -658,13 +648,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for updating the allocated color.
+     * Clears the allocated color of a cell.
      *
      * This method:
-     * -
+     * - Iterates through a region and clears the color of each cell in the region.
      */
-    private void updateAllocColor(int idx, int size) {
-        for (int i = idx; i < idx + size; i++) {
+    private void clearAllocColor(int startIdx, int size) {
+        for (int i = startIdx; i < startIdx + size; i++) {
             switch (i) {
                 case 0 -> bit0.setStyle("-fx-background-color: ");
                 case 1 -> bit1.setStyle("-fx-background-color: ");
@@ -743,10 +733,11 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Method for initializing the
+     * Sets up the required items/attributes of the starting heap.
      *
      * This method:
-     * -
+     * - Sets items for the free combo box and alloc combo box.
+     * - Initializes reserved start and end of heap.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -762,17 +753,17 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         heapStart.pBit = "1";
         heapStart.size = 64;
 
-        // Initialize heapStart's header block
+        // Set heapStart's header cell
         bits1.setText("64/1/0");
 
-        // Initialize first reserved block
+        // Initialize first reserved block (start of heap)
         bytes[0] = new Header();
         bytes[0].idx = 0;
         bytes[0].aBit = "1";
         bytes[0].pBit = "1";
         bytes[0].size = 4;
 
-        // Initialize end of heap area
+        // Initialize last reserved block (end of heap)
         bytes[68] = new Header();
         bytes[68].size = 1;
         bytes[68].idx = 68;
