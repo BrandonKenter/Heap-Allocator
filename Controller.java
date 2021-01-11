@@ -187,6 +187,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             // Coalesce with original
             bytes[headerIdx].size += nextSize;
 
+            // Update prevSize
+            bytes[headerIdx + bytes[headerIdx].size].prevSize = bytes[headerIdx].size;
+
             // Update header, pointer address cells and block colors
             updateHeaderCell(1, headerIdx);
             updatePointerAddressCell(1, ptrIdx);
@@ -202,8 +205,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             // Get size of previous block
             int prevBlockSize = bytes[headerIdx].prevSize;
 
+            // Update prevSize
+            bytes[bytes[bytes[headerIdx].idx + bytes[headerIdx].size].idx].prevSize = prevBlockSize + bytes[headerIdx].size;
+
             // Update size of previous block
-            bytes[headerIdx - bytes[headerIdx].prevSize].size += bytes[headerIdx].size;
+            if (bytes[headerIdx - bytes[headerIdx].prevSize].size != 1) {
+                bytes[headerIdx - bytes[headerIdx].prevSize].size += bytes[headerIdx].size;
+            }
 
             // Update header cells, pointer address cell and block colors
             updateHeaderCell(2, headerIdx - bytes[headerIdx].prevSize);
@@ -211,19 +219,27 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             clearHeaderCell(headerIdx);
             updateAllocColor(headerIdx, bytes[headerIdx].size);
 
-            // Update prevSize of next header if next is not at end of heap
-            if (bytes[headerIdx + bytes[headerIdx].size].size != 1) {
-                bytes[headerIdx + bytes[headerIdx].size].prevSize = bytes[bytes[headerIdx].idx].size + prevBlockSize;
-            }
             // Free original header
             bytes[bytes[headerIdx].idx].aBit = "0";
         }
-        // Update allocated cells to reflect a free operation
 
         // If all blocks are freed, update heapRecent to the first block
         if (bytes[4].size == ALLOC_SIZE) {
             heapRecent = bytes[0];
         }
+
+        // ----------------------------------------------------------------------- TODO REMOVE
+
+        Header current;
+        current = heapStart;
+        System.out.println("------ FREE ITERATION ------");
+        while (current != null && current.size != 1) {
+            System.out.println("CURRENT idx: " + current.idx + " CURRENT size: " + current.size + " CURRENT prevSize: " + current.prevSize + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
+            current = bytes[current.idx + current.size];
+        }
+
+        // ----------------------------------------------------------------------- TODO REMOVE
+
     }
 
     /**
