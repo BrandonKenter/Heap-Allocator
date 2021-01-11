@@ -6,6 +6,5 @@ public class Heap {
     public static Header heapRecent = null;
     public static Header current = null;
 
-    Heap() {
-    }
+    Heap() {}
 }
