@@ -10,11 +10,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("screens/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Heap Allocator");
         primaryStage.setScene(new Scene(root, 1280, 720));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
-
+    
     public static void main(String[] args) {
         launch(args);
     }
