@@ -6,11 +6,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 
 public class Controller extends ButtonsAndLabels implements Initializable {
     int allocsize = 64; // Size of the allocatable space in the block of memory
+    public static ObservableList<String> allocOptions = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
+    public static ObservableList<String> freeOptions = FXCollections.observableArrayList();
 
     /**
      * Method for allocating 'size' bytes of heap memory.
@@ -98,10 +102,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     Heap.bytes[Heap.current.idx + headerPayloadSize].pBit = true;
                     Heap.bytes[Heap.current.idx + headerPayloadSize].prevSize = Heap.current.size - freeSize;
 
-                    System.out.println("CURR IDX: " + Heap.bytes[Heap.current.idx + headerPayloadSize].idx + " PrevSize: " + Heap.bytes[Heap.current.idx + headerPayloadSize].prevSize); // TODO REMOVE
-
                     // SetText for split freeheader
-                    setHeaderCell(Heap.bytes[Heap.current.idx + headerPayloadSize].idx, true);
+                    setHeaderCell(Heap.bytes[Heap.current.idx + headerPayloadSize].idx);
 
                     // update heapRecent to recently allocated block
                     Heap.heapRecent = Heap.current;
@@ -113,7 +115,20 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
                     setAllocColor(Heap.current.idx, Heap.current.size);
                     setPointerAddressCell(Heap.current.idx);
-                    setHeaderCell(Heap.current.idx, false);
+                    setHeaderCell(Heap.current.idx);
+
+                    // ----------------------------------------------------------------------- TODO REMOVE
+
+                    Header current;
+                    current = Heap.heapStart;
+                    System.out.println("------ ALLOC ITERATION ------");
+                    while (current != null && current.size != 1) {
+                        System.out.println("CURRENT idx: " + current.idx + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
+                        current = Heap.bytes[current.idx + current.size];
+                    }
+
+                    // ----------------------------------------------------------------------- TODO REMOVE
+
                     return;
                 }
 
@@ -126,6 +141,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     // Make sure next header is not the end, then update
                     if (Heap.bytes[Heap.current.idx + Heap.current.size].size != 1) {
                         Heap.bytes[Heap.current.idx + Heap.current.size].pBit = true;
+                        updateHeaderCell(0, Heap.current.idx); // TODO ADDED
                     }
                     // Update heapRecent to recently allocated block
                     Heap.heapRecent = Heap.current;
@@ -133,7 +149,20 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
                     setAllocColor(Heap.current.idx, Heap.current.size);
                     setPointerAddressCell(Heap.current.idx);
-                    setHeaderCell(Heap.current.idx, false);
+                    setHeaderCell(Heap.current.idx);
+
+                    // ----------------------------------------------------------------------- TODO REMOVE
+
+                    Header current;
+                    current = Heap.heapStart;
+                    System.out.println("------ ALLOC ITERATION ------");
+                    while (current != null && current.size != 1) {
+                        System.out.println("CURRENT idx: " + current.idx + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
+                        current = Heap.bytes[current.idx + current.size];
+                    }
+
+                    // ----------------------------------------------------------------------- TODO REMOVE
+
                     return;
                 }
             }
@@ -175,7 +204,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             clearHeaderCell(Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx);
             // Free next
             int nextSize = Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size;
-            Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit = false; // TODO NULL TO FALSE
+            Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit = false;
             // Coalesce with original
             Heap.bytes[headerIdx].size += nextSize;
             // Update header, pointer address cells and block colors
@@ -183,24 +212,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             updatePointerAddressCell(1, ptrIdx);
             updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
             // Update prevSize
-            System.out.println("Updated size: " + "(Heap.bytes[headerIdx].size: " + Heap.bytes[headerIdx].size + ") " + "(Next Size: " + nextSize + ")");
-            Heap.bytes[headerIdx].prevSize = Heap.bytes[headerIdx].size; // TODO updated to here
+            // Heap.bytes[headerIdx].prevSize = Heap.bytes[headerIdx].size; // TODO updated to here
         }
         // Else if still not end of heap, but next block is not free, just update p-bit of next block
         if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1) {
             Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].pBit = false;
         }
 
-        // ---------- If previous is free, coalesce original and previous ---------- // TODO WORKING ON HIS
+        // ---------- If previous is free, coalesce original and previous ---------- //
         if (Heap.bytes[headerIdx].pBit == false) {
             // Get size of previous block
             int prevBlockSize = Heap.bytes[headerIdx].prevSize;
             // Update size of previous block
             Heap.bytes[headerIdx - Heap.bytes[headerIdx].prevSize].size += Heap.bytes[headerIdx].size;
-
-            // Calculate prevBlockSize
-            System.out.println("PREV BLOCK SIZE: " + Heap.bytes[headerIdx].prevSize); // TODO REMOVE
-
             // Update header cells, pointer address cell and block colors
             updateHeaderCell(2, headerIdx - Heap.bytes[headerIdx].prevSize);
             updatePointerAddressCell(2, ptrIdx);
@@ -208,13 +232,12 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
             // Update prevSize of next header if next is not at end of heap
             if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size == 1) {
-                return;
             }
             else {
                 Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].prevSize = Heap.bytes[Heap.bytes[headerIdx].idx].size + prevBlockSize;
             }
             // Free original header
-            Heap.bytes[Heap.bytes[headerIdx].idx].aBit = false; // TODO NULL TO FALSE
+            Heap.bytes[Heap.bytes[headerIdx].idx].aBit = false; 
         }
         // Update allocated cells to reflect a free operation
 
@@ -223,17 +246,39 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             Heap.heapRecent = Heap.bytes[0];
         }
 
+//        // ----------------------------------------------------------------------- TODO REMOVE
+//
+//        Header current;
+//        current = Heap.heapStart;
+//        System.out.println("------ ITERATION ------");
+//        while (current != null && current.size != 1) {
+//            System.out.println("CURRENT IDX: " + current.idx + " CURRENT PREVSIZE: " + current.prevSize + " CURRENT SIZE: " + current.size);
+//            current = Heap.bytes[current.idx + current.size];
+//        }
+//
+//        // ----------------------------------------------------------------------- TODO REMOVE
+
         // ----------------------------------------------------------------------- TODO REMOVE
 
         Header current;
         current = Heap.heapStart;
-        System.out.println("------ ITERATION ------");
+        System.out.println("------ FREE ITERATION ------");
         while (current != null && current.size != 1) {
-            System.out.println("CURRENT IDX: " + current.idx + " CURRENT PREVSIZE: " + current.prevSize + " CURRENT SIZE: " + current.size);
+            System.out.println("CURRENT idx: " + current.idx + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
             current = Heap.bytes[current.idx + current.size];
         }
 
         // ----------------------------------------------------------------------- TODO REMOVE
+
+    }
+
+    /**
+     * Method for
+     *
+     * This method:
+     * -
+     */
+    public void simulateButtonClicked() {
 
     }
 
@@ -243,13 +288,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * This method:
      * -
      */
-    private void setPointerAddressCell(int idx) {
-        int ptrIdx = idx + 4;
+    private void setPointerAddressCell(int headerIdx) {
+        int ptrIdx = headerIdx + 4;
         String hexAddress = Integer.toHexString(ptrIdx);
-        comboBoxFree.getItems().add("0x_" + hexAddress);
+        if (headerIdx == 4) {
+            comboBoxFree.getItems().add("0x_08");
+        }
+        else {
+            comboBoxFree.getItems().add("0x_" + hexAddress);
+        }
+        Collections.sort(freeOptions);
 
         switch (ptrIdx) {
-            case 4 -> ptr1.setText("0x_" + hexAddress);
+            case 4 -> ptr1.setText("0x_08");
             case 8 -> ptr2.setText("0x_" + hexAddress);
             case 12 -> ptr3.setText("0x_" + hexAddress);
             case 16 -> ptr4.setText("0x_" + hexAddress);
@@ -265,7 +316,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             case 56 -> ptr14.setText("0x_" + hexAddress);
             case 60 -> ptr15.setText("0x_" + hexAddress);
             case 64 -> ptr16.setText("0x_" + hexAddress);
-            case 68 -> ptr17.setText("0x_" + hexAddress);
         }
     }
 
@@ -295,7 +345,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 56 -> ptr14.setText("");
                 case 60 -> ptr15.setText("");
                 case 64 -> ptr16.setText("");
-                case 68 -> ptr17.setText("");
             }
         }
         else if (region == 1) {
@@ -317,7 +366,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 56 -> ptr14.setText("");
                 case 60 -> ptr15.setText("");
                 case 64 -> ptr16.setText("");
-                case 68 -> ptr17.setText("");
             }
         }
     }
@@ -338,66 +386,26 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * This method:
      * -
      */
-    private void setHeaderCell(int idx, boolean isFreeHeader) {
-        if (isFreeHeader) {
-            String pBit = null;
-            String aBit = null;
-            String size = String.valueOf(Heap.bytes[idx].size);
-
-            if (Heap.bytes[idx].aBit) {
-                aBit = "1";
-            }
-            else {
-                aBit = "0";
-            }
-
-            if (Heap.bytes[idx].pBit) {
-                pBit = "1";
-            }
-            else {
-                aBit = "0";
-            }
-
-            switch (idx) {
-                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
-                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
-                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
-                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
-                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
-                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
-                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
-                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
-                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
-                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
-                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
-                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
-                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
-                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
-                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
-                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
-            }
-        }
-
-        if (!isFreeHeader) {
-
+    private void setHeaderCell(int headerIdx) {
             String pBit = null;
             String aBit;
-            String size = String.valueOf(Heap.bytes[idx].size);
+            String size = String.valueOf(Heap.bytes[headerIdx].size);
 
-            if (Heap.bytes[idx].aBit) {
+            if (Heap.bytes[headerIdx].aBit) {
                 aBit = "1";
-            } else {
+            }
+            else {
                 aBit = "0";
             }
 
-            if (Heap.bytes[idx].pBit) {
+            if (Heap.bytes[headerIdx].pBit) {
                 pBit = "1";
-            } else {
+            }
+            else {
                 aBit = "0";
             }
 
-            switch (idx) {
+            switch (headerIdx) {
                 case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
                 case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
                 case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
@@ -414,10 +422,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
                 case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
                 case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
         }
-    }
 
     /**
      * Method for updating the header cell.
@@ -426,9 +432,11 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * -
      */
     private void updateHeaderCell(int region, int headerIdx) {
+        String pBit = null;
+        String aBit;
+        
+        // ------------------ MIDDLE FREE ------------------
         if (region == 0) {
-            String pBit = null;
-            String aBit = null;
             String size = String.valueOf(Heap.bytes[headerIdx].size);
 
             if (Heap.bytes[headerIdx].aBit) {
@@ -436,7 +444,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             } else {
                 aBit = "0";
             }
-
             if (Heap.bytes[headerIdx].pBit) {
                 pBit = "1";
             } else {
@@ -460,11 +467,116 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
                 case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
                 case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
 
-            // Update next's p-bit to reflect freeing block
+            // Update next's p-bit to reflect freeing block // TODO @@@@@@@@@@@@@@@@
             int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
+            System.out.println("NEXT PBIT: " + Heap.bytes[nextHeaderIdx].pBit + " NEXT ABIT: " + Heap.bytes[nextHeaderIdx].aBit);
+
+            if (Heap.bytes[nextHeaderIdx].aBit) {
+                aBit = "1";
+            } else {
+                aBit = "0";
+            }
+            if (Heap.bytes[nextHeaderIdx].pBit) {
+                pBit = "1";
+            } else {
+                aBit = "0";
+            }
+
+            switch (nextHeaderIdx) {
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+            }
+        }
+
+        // ------------------ MIDDLE/RIGHT COALESCE ------------------
+        else if (region == 1) {
+            String size = String.valueOf(Heap.bytes[headerIdx].size);
+
+            if (Heap.bytes[headerIdx].aBit) {
+                aBit = "1";
+            } else {
+                aBit = "0";
+            }
+            if (Heap.bytes[headerIdx].pBit) {
+                pBit = "1";
+            } else {
+                aBit = "0";
+            }
+
+            switch (headerIdx) {
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+            }
+        }
+
+        // ------------------ LEFT/MIDDLE COALESCE ------------------
+        else {
+            // ---------- UPDATE LEFT HEADER ----------
+            String size = String.valueOf(Heap.bytes[headerIdx].size);
+
+            if (Heap.bytes[headerIdx].aBit) {
+                aBit = "1";
+            } else {
+                aBit = "0";
+            }
+            if (Heap.bytes[headerIdx].pBit) {
+                pBit = "1";
+            } else {
+                aBit = "0";
+            }
+
+            switch (headerIdx) {
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+            }
+
+            // Update next's p-bit to reflect freeing block // TODO ADDED
+            int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
+            size = String.valueOf(Heap.bytes[nextHeaderIdx].size); // TODO
             pBit = "0";
             aBit = "1";
 
@@ -485,96 +597,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
                 case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
                 case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
-        } else if (region == 1) {
-            String pBit = null;
-            String aBit = null;
-            String size = String.valueOf(Heap.bytes[headerIdx].size);
-
-            if (Heap.bytes[headerIdx].aBit) {
-                aBit = "1";
-            } else {
-                aBit = "0";
-            }
-
-            if (Heap.bytes[headerIdx].pBit) {
-                pBit = "1";
-            } else {
-                aBit = "0";
-            }
-
-            switch (headerIdx) {
-                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
-                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
-                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
-                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
-                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
-                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
-                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
-                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
-                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
-                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
-                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
-                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
-                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
-                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
-                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
-                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
-            }
-
-
-        }
-        // -------------------------------------------------------------------------------------------------
-        else {
-            // ---------- UPDATE LEFT HEADER ----------
-            String pBit = null;
-            String aBit = null;
-            String size = String.valueOf(Heap.bytes[headerIdx].size);
-
-            if (Heap.bytes[headerIdx].aBit) {
-                aBit = "1";
-            } else {
-                aBit = "0";
-            }
-
-            if (Heap.bytes[headerIdx].pBit) {
-                pBit = "1";
-            } else {
-                aBit = "0";
-            }
-
-            switch (headerIdx) {
-                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
-                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
-                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
-                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
-                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
-                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
-                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
-                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
-                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
-                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
-                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
-                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
-                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
-                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
-                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
-                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
-                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
-            }
-
-            // ---------- REMOVE MIDDLE HEADER ----------
-
-            // Update next's p-bit to reflect freeing block
-            // TODO
-
-            // Calculate next header index
-            int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
-
-            // Clear header
-            clearHeaderCell(nextHeaderIdx);
         }
     }
 
@@ -602,7 +625,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             case 56 -> bits14.setText("");
             case 60 -> bits15.setText("");
             case 64 -> bits16.setText("");
-            case 68 -> bits17.setText("");
         }
     }
 
@@ -785,8 +807,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set alloc combo box options
-        ObservableList<String> options = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
-        comboBoxAlloc.setItems(options);
+        comboBoxAlloc.setItems(allocOptions);
+        comboBoxFree.setItems(freeOptions);
 
         // Initialize heapStart
         Heap.bytes[4] = new Header();
