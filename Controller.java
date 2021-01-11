@@ -365,7 +365,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * -
      */
     private void updateHeaderCell(int region, int headerIdx) {
-        //                          ------------------ MIDDLE FREE ------------------
+        //------------------ MIDDLE FREE ------------------
         if (region == 0) {
             String size = String.valueOf(Heap.bytes[headerIdx].size);
 
@@ -412,7 +412,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
         }
 
-        //                          ------------------ MIDDLE/RIGHT COALESCE ------------------
+        //------------------ MIDDLE/RIGHT COALESCE ------------------
         else if (region == 1) {
             String size = String.valueOf(Heap.bytes[headerIdx].size);
 
@@ -436,7 +436,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
         }
 
-        //                          ------------------ LEFT/MIDDLE COALESCE ------------------
+        //------------------ LEFT/MIDDLE COALESCE ------------------
         else {
             // Update left header
             String size = String.valueOf(Heap.bytes[headerIdx].size);
