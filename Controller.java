@@ -129,7 +129,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     // Make sure next header is not the end, then update
                     if (Heap.bytes[Heap.current.idx + Heap.current.size].size != 1) {
                         Heap.bytes[Heap.current.idx + Heap.current.size].pBit = "1";
-                        updateHeaderCell(0, Heap.current.idx); // TODO ADDED
+                        updateHeaderCell(0, Heap.current.idx);
                     }
                     // Update heapRecent to recently allocated block
                     Heap.heapRecent = Heap.current;
@@ -138,19 +138,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     setAllocColor(Heap.current.idx, Heap.current.size);
                     setPointerAddressCell(Heap.current.idx);
                     setHeaderCell(Heap.current.idx);
-
-                    // ----------------------------------------------------------------------- TODO REMOVE
-
-                    Header current;
-                    current = Heap.heapStart;
-                    System.out.println("------ ALLOC ITERATION ------");
-                    while (current != null && current.size != 1) {
-                        System.out.println("CURRENT idx: " + current.idx + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
-                        current = Heap.bytes[current.idx + current.size];
-                    }
-
-                    // ----------------------------------------------------------------------- TODO REMOVE
-
                     return;
                 }
             }
@@ -172,6 +159,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Updates headers as necessary.
      */
     public void freeButtonClicked() {
+        if (comboBoxFree.getValue() == null) {
+            return;
+        }
+
         // Get pointer index and header index
         String address = (String) comboBoxFree.getValue();
         comboBoxFree.getItems().remove(address);
@@ -199,8 +190,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             updateHeaderCell(1, headerIdx);
             updatePointerAddressCell(1, ptrIdx);
             updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
-            // Update prevSize
-            // Heap.bytes[headerIdx].prevSize = Heap.bytes[headerIdx].size; // TODO updated to here
         }
         // Else if still not end of heap, but next block is not free, just update p-bit of next block
         if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1) {
@@ -233,31 +222,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         if (Heap.bytes[4].size == allocsize) {
             Heap.heapRecent = Heap.bytes[0];
         }
-
-//        // ----------------------------------------------------------------------- TODO REMOVE
-//
-//        Header current;
-//        current = Heap.heapStart;
-//        System.out.println("------ ITERATION ------");
-//        while (current != null && current.size != 1) {
-//            System.out.println("CURRENT IDX: " + current.idx + " CURRENT PREVSIZE: " + current.prevSize + " CURRENT SIZE: " + current.size);
-//            current = Heap.bytes[current.idx + current.size];
-//        }
-//
-//        // ----------------------------------------------------------------------- TODO REMOVE
-
-        // ----------------------------------------------------------------------- TODO REMOVE
-
-        Header current;
-        current = Heap.heapStart;
-        System.out.println("------ FREE ITERATION ------");
-        while (current != null && current.size != 1) {
-            System.out.println("CURRENT idx: " + current.idx + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
-            current = Heap.bytes[current.idx + current.size];
-        }
-
-        // ----------------------------------------------------------------------- TODO REMOVE
-
     }
 
     /**
@@ -429,7 +393,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
             // Update next's p-bit to reflect freeing block
             int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
-            System.out.println("NEXT PBIT: " + Heap.bytes[nextHeaderIdx].pBit + " NEXT ABIT: " + Heap.bytes[nextHeaderIdx].aBit);
+            size = String.valueOf(Heap.bytes[nextHeaderIdx].size);
 
             switch (nextHeaderIdx) {
                 case 4 -> bits1.setText(size + "/" + Heap.bytes[nextHeaderIdx].pBit + "/" + Heap.bytes[nextHeaderIdx].aBit);
