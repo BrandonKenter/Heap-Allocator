@@ -165,7 +165,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
         // Update header, pointer address cells and block colors
         updateHeaderCell(0, headerIdx);
-        updatePointerAddressCell(0, ptrIdx);
+        updatePointerAddressCell(ptrIdx);
         clearAllocColor(bytes[headerIdx].idx, bytes[headerIdx].size);
 
         // ---------- If next is not the end of the heap and is free, coalesce original and next ---------- //
@@ -184,7 +184,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
             // Update header, pointer address cells and block colors
             updateHeaderCell(1, headerIdx);
-            updatePointerAddressCell(1, ptrIdx);
+            updatePointerAddressCell(ptrIdx);
             clearAllocColor(headerIdx, bytes[headerIdx].size);
         }
         // Else if still not end of heap, but next block is not free, just update p-bit of next block
@@ -205,7 +205,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
 
             // Update header cells, pointer address cell and block colors
             updateHeaderCell(2, headerIdx - bytes[headerIdx].prevSize);
-            updatePointerAddressCell(2, ptrIdx);
+            updatePointerAddressCell(ptrIdx);
             clearHeaderCell(headerIdx);
             clearAllocColor(headerIdx, bytes[headerIdx].size);
 
@@ -317,15 +317,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         }
     }
 
-    // TODO REGION 2
     /**
      * Updates the pointer address cell.
      *
      * This method:
      * - Updates the text in a specific pointer address cell given the region and pointer index.
      */
-    private void updatePointerAddressCell(int region, int ptrIdx) {
-        if (region == 0) {
+    private void updatePointerAddressCell(int ptrIdx) {
             switch (ptrIdx) {
                 case 4 -> ptr1.setText("");
                 case 8 -> ptr2.setText("");
@@ -344,27 +342,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                 case 60 -> ptr15.setText("");
                 case 64 -> ptr16.setText("");
             }
-        } else if (region == 1) {
-            ptrIdx = bytes[bytes[ptrIdx - 4].idx + bytes[ptrIdx - 4].size].idx;
-            switch (ptrIdx) {
-                case 4 -> ptr1.setText("");
-                case 8 -> ptr2.setText("");
-                case 12 -> ptr3.setText("");
-                case 16 -> ptr4.setText("");
-                case 20 -> ptr5.setText("");
-                case 24 -> ptr6.setText("");
-                case 28 -> ptr7.setText("");
-                case 32 -> ptr8.setText("");
-                case 36 -> ptr9.setText("");
-                case 40 -> ptr10.setText("");
-                case 44 -> ptr11.setText("");
-                case 48 -> ptr12.setText("");
-                case 52 -> ptr13.setText("");
-                case 56 -> ptr14.setText("");
-                case 60 -> ptr15.setText("");
-                case 64 -> ptr16.setText("");
-            }
-        }
     }
 
     // TODO IMPLEMENT
@@ -377,7 +354,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     private void clearPointerAddressCell(int ptrIdx) {
     }
 
-    // TODO HELPER METHOD FOR SWITCHES
     /**
      * Sets the header cell.
      *
@@ -386,7 +362,48 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      */
     private void setHeaderCell(int headerIdx) {
         String size = String.valueOf(bytes[headerIdx].size);
+        headerCellHelper(headerIdx, size);
+    }
+    
+    /**
+     * Updates the header cell.
+     *
+     * This method:
+     * - Updates the text in a specific header cell given the header index.
+     */
+    private void updateHeaderCell(int region, int headerIdx) {
+        //------------------ MIDDLE FREE ------------------
+        if (region == 0) {
+            // Update middle header
+            String size = String.valueOf(bytes[headerIdx].size);
+            headerCellHelper(headerIdx, size);
 
+            // Update next's p-bit to reflect freeing block
+            int nextHeaderIdx = bytes[headerIdx + bytes[headerIdx].size].idx;
+            size = String.valueOf(bytes[nextHeaderIdx].size);
+            headerCellHelper(nextHeaderIdx, size);
+        }
+
+        //------------------ MIDDLE/RIGHT COALESCE ------------------
+        else if (region == 1) {
+            String size = String.valueOf(bytes[headerIdx].size);
+            headerCellHelper(headerIdx, size);
+        }
+
+        //------------------ LEFT/MIDDLE COALESCE ------------------
+        else {
+            // Update left header
+            String size = String.valueOf(bytes[headerIdx].size);
+            headerCellHelper(headerIdx, size);
+
+            // Update next's p-bit to reflect freeing block
+            int nextHeaderIdx = bytes[headerIdx + bytes[headerIdx].size].idx;
+            size = String.valueOf(bytes[nextHeaderIdx].size);
+            headerCellHelper(headerIdx, size);
+        }
+    }
+
+    private void headerCellHelper(int headerIdx, String size) {
         switch (headerIdx) {
             case 4 -> bits1.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
             case 8 -> bits2.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
@@ -404,134 +421,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             case 56 -> bits14.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
             case 60 -> bits15.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
             case 64 -> bits16.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-        }
-    }
-
-    // TODO HELPER METHOD FOR SWITCHES
-    /**
-     * Updates the header cell.
-     *
-     * This method:
-     * - Updates the text in a specific header cell given the header index.
-     */
-    private void updateHeaderCell(int region, int headerIdx) {
-        //------------------ MIDDLE FREE ------------------
-        if (region == 0) {
-            String size = String.valueOf(bytes[headerIdx].size);
-
-            switch (headerIdx) {
-                case 4 -> bits1.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 8 -> bits2.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 12 -> bits3.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 16 -> bits4.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 20 -> bits5.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 24 -> bits6.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 28 -> bits7.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 32 -> bits8.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 36 -> bits9.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 40 -> bits10.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 44 -> bits11.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 48 -> bits12.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 52 -> bits13.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 56 -> bits14.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 60 -> bits15.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 64 -> bits16.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-            }
-
-            // Update next's p-bit to reflect freeing block
-            int nextHeaderIdx = bytes[headerIdx + bytes[headerIdx].size].idx;
-            size = String.valueOf(bytes[nextHeaderIdx].size);
-
-            switch (nextHeaderIdx) {
-                case 4 -> bits1.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 8 -> bits2.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 12 -> bits3.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 16 -> bits4.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 20 -> bits5.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 24 -> bits6.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 28 -> bits7.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 32 -> bits8.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 36 -> bits9.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 40 -> bits10.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 44 -> bits11.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 48 -> bits12.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 52 -> bits13.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 56 -> bits14.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 60 -> bits15.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 64 -> bits16.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-            }
-        }
-
-        //------------------ MIDDLE/RIGHT COALESCE ------------------
-        else if (region == 1) {
-            String size = String.valueOf(bytes[headerIdx].size);
-
-            switch (headerIdx) {
-                case 4 -> bits1.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 8 -> bits2.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 12 -> bits3.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 16 -> bits4.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 20 -> bits5.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 24 -> bits6.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 28 -> bits7.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 32 -> bits8.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 36 -> bits9.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 40 -> bits10.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 44 -> bits11.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 48 -> bits12.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 52 -> bits13.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 56 -> bits14.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 60 -> bits15.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 64 -> bits16.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-            }
-        }
-
-        //------------------ LEFT/MIDDLE COALESCE ------------------
-        else {
-            // Update left header
-            String size = String.valueOf(bytes[headerIdx].size);
-
-            switch (headerIdx) {
-                case 4 -> bits1.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 8 -> bits2.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 12 -> bits3.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 16 -> bits4.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 20 -> bits5.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 24 -> bits6.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 28 -> bits7.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 32 -> bits8.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 36 -> bits9.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 40 -> bits10.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 44 -> bits11.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 48 -> bits12.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 52 -> bits13.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 56 -> bits14.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 60 -> bits15.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-                case 64 -> bits16.setText(size + "/" + bytes[headerIdx].pBit + "/" + bytes[headerIdx].aBit);
-            }
-
-            // Update next's p-bit to reflect freeing block
-            int nextHeaderIdx = bytes[headerIdx + bytes[headerIdx].size].idx;
-            size = String.valueOf(bytes[nextHeaderIdx].size);
-
-            switch (nextHeaderIdx) {
-                case 4 -> bits1.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 8 -> bits2.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 12 -> bits3.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 16 -> bits4.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 20 -> bits5.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 24 -> bits6.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 28 -> bits7.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 32 -> bits8.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 36 -> bits9.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 40 -> bits10.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 44 -> bits11.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 48 -> bits12.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 52 -> bits13.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 56 -> bits14.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 60 -> bits15.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-                case 64 -> bits16.setText(size + "/" + bytes[nextHeaderIdx].pBit + "/" + bytes[nextHeaderIdx].aBit);
-            }
         }
     }
 
