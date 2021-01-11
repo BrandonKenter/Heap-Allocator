@@ -11,10 +11,10 @@ Visualization of general heap allocation processes performed by a heap allocator
 # Getting Started
 Working version not available yet
 
-# Using the App
-
-# Things to keep in mind
+# General Info
 - This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
+
+# Using the App
 
 # Preview
 ![alt text](https://i.gyazo.com/8336595d9e26765dede662026d2cae0e.png)
