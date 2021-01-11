@@ -209,9 +209,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             bytes[bytes[bytes[headerIdx].idx + bytes[headerIdx].size].idx].prevSize = prevBlockSize + bytes[headerIdx].size;
 
             // Update size of previous block
-            if (bytes[headerIdx - bytes[headerIdx].prevSize].size != 1) {
-                bytes[headerIdx - bytes[headerIdx].prevSize].size += bytes[headerIdx].size;
-            }
+            bytes[headerIdx - bytes[headerIdx].prevSize].size += bytes[headerIdx].size;
 
             // Update header cells, pointer address cell and block colors
             updateHeaderCell(2, headerIdx - bytes[headerIdx].prevSize);
@@ -227,19 +225,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         if (bytes[4].size == ALLOC_SIZE) {
             heapRecent = bytes[0];
         }
-
-        // ----------------------------------------------------------------------- TODO REMOVE
-
-        Header current;
-        current = heapStart;
-        System.out.println("------ FREE ITERATION ------");
-        while (current != null && current.size != 1) {
-            System.out.println("CURRENT idx: " + current.idx + " CURRENT size: " + current.size + " CURRENT prevSize: " + current.prevSize + " CURRENT pBit: " + current.pBit + " CURRENT aBit: " + current.aBit);
-            current = bytes[current.idx + current.size];
-        }
-
-        // ----------------------------------------------------------------------- TODO REMOVE
-
     }
 
     /**
