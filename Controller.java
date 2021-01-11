@@ -27,9 +27,11 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      *
      */
     public void allocBtnClicked0(ActionEvent event) throws IOException {
-        int size = Integer.parseInt((String) comboBoxAlloc.getValue()); // Get size wanted to be allocated
+        // Get size wanted to be allocated
+        int size = Integer.parseInt((String) comboBoxAlloc.getValue());
 
-        int z = 0; // Loop counter for next-fit algorithm
+        // Loop counter for next-fit algorithm
+        int z = 0;
 
         // Make sure requested space < available space
         if (size > allocsize - 4) {
@@ -48,22 +50,21 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             Heap.current = Heap.heapRecent;
         }
 
-        // Otherwise shift current forward (since this block will be allocated)
+        // Otherwise set current to heapRecent
         else {
             Heap.current = Heap.heapRecent;
-            //current.idx = current.idx + current.size;
         }
 
         // Calculate block size without padding
         int headerPayloadSize = 4 + size;
 
-        // If requested size is not a mulitple of 8, add padding
+        // If requested size is not a multiple of 8, add padding
         if (headerPayloadSize % 8 != 0) {
             int offset = (8 - (headerPayloadSize % 8));
             headerPayloadSize = headerPayloadSize + offset;
         }
 
-        // Check if size > heap space by iterating through heap using next-fit placement policy
+        // ---- Check if size > heap space by iterating through heap using next-fit placement policy ----
 
         //Iterate through blocks
         while (Heap.current.idx != Heap.heapRecent.idx || z == 0 || z == 1) {
@@ -80,10 +81,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     continue;
                 }
             }
+
             // If free block with enough size is found
             if ((!Heap.current.aBit) && (Heap.current.size >= headerPayloadSize)) {
+
                 // Split if possible (available size - alloc size >= alloc size + 8)
                 if (Heap.current.size - headerPayloadSize >= 8) {
+
                     // Get size of free block
                     int freeSize = Heap.current.size - headerPayloadSize;
 
@@ -92,7 +96,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     Heap.bytes[Heap.current.idx + headerPayloadSize].idx = Heap.current.idx + headerPayloadSize;
                     Heap.bytes[Heap.current.idx + headerPayloadSize].size = freeSize;
                     Heap.bytes[Heap.current.idx + headerPayloadSize].pBit = true;
-                    Heap.bytes[Heap.current.idx + headerPayloadSize].prevSize = Heap.current.size;
+                    Heap.bytes[Heap.current.idx + headerPayloadSize].prevSize = Heap.current.size - freeSize;
+
+                    System.out.println("CURR IDX: " + Heap.bytes[Heap.current.idx + headerPayloadSize].idx + " PrevSize: " + Heap.bytes[Heap.current.idx + headerPayloadSize].prevSize); // TODO REMOVE
 
                     // SetText for split freeheader
                     setHeaderCell(Heap.bytes[Heap.current.idx + headerPayloadSize].idx, true);
@@ -107,8 +113,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
                     setAllocColor(Heap.current.idx, Heap.current.size);
                     setPointerAddressCell(Heap.current.idx);
-                    System.out.println("SET HEADER CELL OF INDEX: " + Heap.current.idx);
-                    setHeaderCell(Heap.current.idx, false); // TODO NULL POINTER EXCEPTION
+                    setHeaderCell(Heap.current.idx, false);
                     return;
                 }
 
@@ -122,7 +127,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     if (Heap.bytes[Heap.current.idx + Heap.current.size].size != 1) {
                         Heap.bytes[Heap.current.idx + Heap.current.size].pBit = true;
                     }
-
                     // Update heapRecent to recently allocated block
                     Heap.heapRecent = Heap.current;
 
@@ -133,71 +137,207 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     return;
                 }
             }
+
             // Current block is allocated or not big enough, iterate to next block header.
             Heap.current = Heap.bytes[Heap.current.idx + Heap.current.size];
         }
     }
 
+    /**
+     * Method for freeing up a previously allocated block.
+     * Argument ptr: address of the block to be freed up.
+     * Returns positively on success.
+     * Returns negatively on failure.
+     *
+     * This method:
+     * - Frees allocated blocks.
+     * - Coalesces adjacent free blocks.
+     * - Updates headers as necessary.
+     */
+    public void freeButtonClicked() {
+        // Get pointer index and header index
+        String address = (String) comboBoxFree.getValue();
+        comboBoxFree.getItems().remove(address);
+        address = address.substring(3);
+        int ptrIdx = Integer.parseInt(address, 16);
+        int headerIdx = ptrIdx - 4;
+
+        // ---------- Free original block by setting abit and next's pbit ----------
+        Heap.bytes[headerIdx].aBit = false;
+        Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].pBit = false;
+        // Update header, pointer address cells and block colors
+        updateHeaderCell(0, headerIdx);
+        updatePointerAddressCell(0, ptrIdx);
+        updateAllocColor(Heap.bytes[headerIdx].idx, Heap.bytes[headerIdx].size);
+
+        // ---------- If next is not the end of the heap and is free, coalesce original and next ----------
+        if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1 && !Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit) {
+            clearHeaderCell(Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx);
+            // Free next
+            int nextSize = Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size;
+            Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].aBit = false; // TODO NULL TO FALSE
+            // Coalesce with original
+            Heap.bytes[headerIdx].size += nextSize;
+            // Update header, pointer address cells and block colors
+            updateHeaderCell(1, headerIdx);
+            updatePointerAddressCell(1, ptrIdx);
+            updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
+            // Update prevSize
+            System.out.println("Updated size: " + "(Heap.bytes[headerIdx].size: " + Heap.bytes[headerIdx].size + ") " + "(Next Size: " + nextSize + ")");
+            Heap.bytes[headerIdx].prevSize = Heap.bytes[headerIdx].size; // TODO updated to here
+        }
+        // Else if still not end of heap, but next block is not free, just update p-bit of next block
+        if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size != 1) {
+            Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].pBit = false;
+        }
+
+        // ---------- If previous is free, coalesce original and previous ---------- // TODO WORKING ON HIS
+        if (Heap.bytes[headerIdx].pBit == false) {
+            // Get size of previous block
+            int prevBlockSize = Heap.bytes[headerIdx].prevSize;
+            // Update size of previous block
+            Heap.bytes[headerIdx - Heap.bytes[headerIdx].prevSize].size += Heap.bytes[headerIdx].size;
+
+            // Calculate prevBlockSize
+            System.out.println("PREV BLOCK SIZE: " + Heap.bytes[headerIdx].prevSize); // TODO REMOVE
+
+            // Update header cells, pointer address cell and block colors
+            updateHeaderCell(2, headerIdx - Heap.bytes[headerIdx].prevSize);
+            updatePointerAddressCell(2, ptrIdx);
+            clearHeaderCell(headerIdx);
+            updateAllocColor(headerIdx, Heap.bytes[headerIdx].size);
+            // Update prevSize of next header if next is not at end of heap
+            if (Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].size == 1) {
+                return;
+            }
+            else {
+                Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].prevSize = Heap.bytes[Heap.bytes[headerIdx].idx].size + prevBlockSize;
+            }
+            // Free original header
+            Heap.bytes[Heap.bytes[headerIdx].idx].aBit = false; // TODO NULL TO FALSE
+        }
+        // Update allocated cells to reflect a free operation
+
+        // If all blocks are freed, update heapRecent to the first block
+        if (Heap.bytes[4].size == allocsize) {
+            Heap.heapRecent = Heap.bytes[0];
+        }
+
+        // ----------------------------------------------------------------------- TODO REMOVE
+
+        Header current;
+        current = Heap.heapStart;
+        System.out.println("------ ITERATION ------");
+        while (current != null && current.size != 1) {
+            System.out.println("CURRENT IDX: " + current.idx + " CURRENT PREVSIZE: " + current.prevSize + " CURRENT SIZE: " + current.size);
+            current = Heap.bytes[current.idx + current.size];
+        }
+
+        // ----------------------------------------------------------------------- TODO REMOVE
+
+    }
+
+    /**
+     * Method for setting the pointer address cell
+     *
+     * This method:
+     * -
+     */
     private void setPointerAddressCell(int idx) {
         int ptrIdx = idx + 4;
         String hexAddress = Integer.toHexString(ptrIdx);
         comboBoxFree.getItems().add("0x_" + hexAddress);
 
         switch (ptrIdx) {
-            case 4:
-                ptr1.setText("0x_" + hexAddress);
-                break;
-            case 8:
-                ptr2.setText("0x_" + hexAddress);
-                break;
-            case 12:
-                ptr3.setText("0x_" + hexAddress);
-                break;
-            case 16:
-                ptr4.setText("0x_" + hexAddress);
-                break;
-            case 20:
-                ptr5.setText("0x_" + hexAddress);
-                break;
-            case 24:
-                ptr6.setText("0x_" + hexAddress);
-                break;
-            case 28:
-                ptr7.setText("0x_" + hexAddress);
-                break;
-            case 32:
-                ptr8.setText("0x_" + hexAddress);
-                break;
-            case 36:
-                ptr9.setText("0x_" + hexAddress);
-                break;
-            case 40:
-                ptr10.setText("0x_" + hexAddress);
-                break;
-            case 44:
-                ptr11.setText("0x_" + hexAddress);
-                break;
-            case 48:
-                ptr12.setText("0x_" + hexAddress);
-                break;
-            case 52:
-                ptr13.setText("0x_" + hexAddress);
-                break;
-            case 56:
-                ptr14.setText("0x_" + hexAddress);
-                break;
-            case 60:
-                ptr15.setText("0x_" + hexAddress);
-                break;
-            case 64:
-                ptr16.setText("0x_" + hexAddress);
-                break;
-            case 68:
-                ptr17.setText("0x_" + hexAddress);
-                break;
+            case 4 -> ptr1.setText("0x_" + hexAddress);
+            case 8 -> ptr2.setText("0x_" + hexAddress);
+            case 12 -> ptr3.setText("0x_" + hexAddress);
+            case 16 -> ptr4.setText("0x_" + hexAddress);
+            case 20 -> ptr5.setText("0x_" + hexAddress);
+            case 24 -> ptr6.setText("0x_" + hexAddress);
+            case 28 -> ptr7.setText("0x_" + hexAddress);
+            case 32 -> ptr8.setText("0x_" + hexAddress);
+            case 36 -> ptr9.setText("0x_" + hexAddress);
+            case 40 -> ptr10.setText("0x_" + hexAddress);
+            case 44 -> ptr11.setText("0x_" + hexAddress);
+            case 48 -> ptr12.setText("0x_" + hexAddress);
+            case 52 -> ptr13.setText("0x_" + hexAddress);
+            case 56 -> ptr14.setText("0x_" + hexAddress);
+            case 60 -> ptr15.setText("0x_" + hexAddress);
+            case 64 -> ptr16.setText("0x_" + hexAddress);
+            case 68 -> ptr17.setText("0x_" + hexAddress);
         }
     }
 
+    // TODO region 2?
+    /**
+     * Method for updating the pointer address cell.
+     *
+     * This method:
+     * -
+     */
+    private void updatePointerAddressCell(int region, int ptrIdx) {
+        if (region == 0) {
+            switch (ptrIdx) {
+                case 4 -> ptr1.setText("");
+                case 8 -> ptr2.setText("");
+                case 12 -> ptr3.setText("");
+                case 16 -> ptr4.setText("");
+                case 20 -> ptr5.setText("");
+                case 24 -> ptr6.setText("");
+                case 28 -> ptr7.setText("");
+                case 32 -> ptr8.setText("");
+                case 36 -> ptr9.setText("");
+                case 40 -> ptr10.setText("");
+                case 44 -> ptr11.setText("");
+                case 48 -> ptr12.setText("");
+                case 52 -> ptr13.setText("");
+                case 56 -> ptr14.setText("");
+                case 60 -> ptr15.setText("");
+                case 64 -> ptr16.setText("");
+                case 68 -> ptr17.setText("");
+            }
+        }
+        else if (region == 1) {
+            ptrIdx = Heap.bytes[Heap.bytes[ptrIdx - 4].idx +Heap.bytes[ptrIdx - 4].size].idx;
+            switch (ptrIdx) {
+                case 4 -> ptr1.setText("");
+                case 8 -> ptr2.setText("");
+                case 12 -> ptr3.setText("");
+                case 16 -> ptr4.setText("");
+                case 20 -> ptr5.setText("");
+                case 24 -> ptr6.setText("");
+                case 28 -> ptr7.setText("");
+                case 32 -> ptr8.setText("");
+                case 36 -> ptr9.setText("");
+                case 40 -> ptr10.setText("");
+                case 44 -> ptr11.setText("");
+                case 48 -> ptr12.setText("");
+                case 52 -> ptr13.setText("");
+                case 56 -> ptr14.setText("");
+                case 60 -> ptr15.setText("");
+                case 64 -> ptr16.setText("");
+                case 68 -> ptr17.setText("");
+            }
+        }
+    }
+
+    // TODO implement
+    /**
+     * Method for clearing the pointer address cell.
+     *
+     * This method:
+     * -
+     */
+    private void clearPointerAddressCell(int ptrIdx) {
+    }
+
+    /**
+     * Method for setting the header cell.
+     *
+     * This method:
+     * -
+     */
     private void setHeaderCell(int idx, boolean isFreeHeader) {
         if (isFreeHeader) {
             String pBit = null;
@@ -219,64 +359,30 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
 
             switch (idx) {
-                case 4:
-                    bits1.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 8:
-                    bits2.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 12:
-                    bits3.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 16:
-                    bits4.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 20:
-                    bits5.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 24:
-                    bits6.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 28:
-                    bits7.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 32:
-                    bits8.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 36:
-                    bits9.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 40:
-                    bits10.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 44:
-                    bits11.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 48:
-                    bits12.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 52:
-                    bits13.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 56:
-                    bits14.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 60:
-                    bits15.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 64:
-                    bits16.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 68:
-                    bits17.setText(size + "/" + pBit + "/" + aBit);
-                    break;
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
         }
 
         if (!isFreeHeader) {
 
             String pBit = null;
-            String aBit = null;
+            String aBit;
             String size = String.valueOf(Heap.bytes[idx].size);
 
             if (Heap.bytes[idx].aBit) {
@@ -292,189 +398,34 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
 
             switch (idx) {
-                case 4:
-                    bits1.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 8:
-                    bits2.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 12:
-                    bits3.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 16:
-                    bits4.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 20:
-                    bits5.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 24:
-                    bits6.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 28:
-                    bits7.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 32:
-                    bits8.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 36:
-                    bits9.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 40:
-                    bits10.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 44:
-                    bits11.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 48:
-                    bits12.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 52:
-                    bits13.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 56:
-                    bits14.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 60:
-                    bits15.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 64:
-                    bits16.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 68:
-                    bits17.setText(size + "/" + pBit + "/" + aBit);
-                    break;
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
         }
     }
 
     /**
-     * Method for freeing up a previously allocated block.
-     * Argument ptr: address of the block to be freed up.
-     * Returns positively on success.
-     * Returns negatively on failure.
+     * Method for updating the header cell.
      *
      * This method:
-     * - Frees allocated blocks.
-     * - Coalesces adjacent free blocks.
-     * - Updates headers as necessary.
+     * -
      */
-    public void freeButtonClicked(ActionEvent event) throws IOException {
-        String address = (String) comboBoxFree.getValue();
-        comboBoxFree.getItems().remove(address);
-        address = address.substring(3);
-        int ptrIdx = Integer.parseInt(address, 16);
-        int headerIdx = ptrIdx - 4;
-
-        // Free original block
-        Heap.bytes[headerIdx].aBit = false;
-        Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].pBit = false;
-
-        // Update header and pointer address cells
-        updateHeaderCell(0, headerIdx);
-        updatePointerAddressCell(0, ptrIdx);
-        updateAllocColor(Heap.bytes[headerIdx].idx, Heap.bytes[headerIdx].size);
-
-        // If next is not the end of the heap and is free, coalesce original and next
-        if (Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size != 1 && !Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].aBit) {
-            clearHeaderCell(Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].idx);
-            // Free next
-            int nextSize = Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size;
-            Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size] = null;
-            // Coalesce with original
-            Heap.bytes[Heap.bytes[headerIdx].idx].size += nextSize;
-            // Update header and pointer address cells
-            updateHeaderCell(1, headerIdx);
-            updatePointerAddressCell(1, ptrIdx);
-            updateAllocColor(Heap.bytes[headerIdx].idx, Heap.bytes[headerIdx].size);
-            // Update prevSize TODO
-            Heap.bytes[Heap.bytes[headerIdx].idx].prevSize = Heap.bytes[Heap.bytes[headerIdx].idx].size + nextSize;
-        }
-
-        // Else if still not end of heap, but next block is not free, just update p-bit of next block
-        if (Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].size != 0) {
-            Heap.bytes[Heap.bytes[headerIdx].idx + Heap.bytes[headerIdx].size].pBit = false;
-        }
-
-        // If previous is free, coalesce original and previous
-        if (Heap.bytes[Heap.bytes[headerIdx].idx].pBit == false) {
-            // Update previous size
-            Heap.bytes[Heap.bytes[headerIdx].idx - Heap.bytes[headerIdx].prevSize].size += Heap.bytes[Heap.bytes[headerIdx].idx].size;
-            // Coalesce with original (free bytes[headerIdx])
-            Heap.bytes[Heap.bytes[headerIdx].idx] = null;
-            // Update current to remove CSS
-            Heap.bytes[headerIdx] = Heap.bytes[Heap.bytes[headerIdx].idx - Heap.bytes[Heap.bytes[headerIdx].idx].size];
-
-            // Update header, pointer address cells and block colors
-            updateHeaderCell(2, ptrIdx - 4);
-            updatePointerAddressCell(2, ptrIdx);
-            updateAllocColor(Heap.bytes[headerIdx].idx, Heap.bytes[headerIdx].size);
-        }
-        // Update allocated cells to reflect a free operation
-
-        // If all blocks are freed, update heapRecent to the first block
-        if (Heap.bytes[4].size == 64) {
-            Heap.heapRecent = Heap.bytes[0];
-        }
-    }
-
-    private void clearHeaderCell(int headerIdx) {
-        switch (headerIdx) {
-            case 4:
-                bits1.setText("");
-                break;
-            case 8:
-                bits2.setText("");
-                break;
-            case 12:
-                bits3.setText("");
-                break;
-            case 16:
-                bits4.setText("");
-                break;
-            case 20:
-                bits5.setText("");
-                break;
-            case 24:
-                bits6.setText("");
-                break;
-            case 28:
-                bits7.setText("");
-                break;
-            case 32:
-                bits8.setText("");
-                break;
-            case 36:
-                bits9.setText("");
-                break;
-            case 40:
-                bits10.setText("");
-                break;
-            case 44:
-                bits11.setText("");
-                break;
-            case 48:
-                bits12.setText("");
-                break;
-            case 52:
-                bits13.setText("");
-                break;
-            case 56:
-                bits14.setText("");
-                break;
-            case 60:
-                bits15.setText("");
-                break;
-            case 64:
-                bits16.setText("");
-                break;
-            case 68:
-                bits17.setText("");
-                break;
-        }
-    }
-    // TODO make a helper method to remove duplicate switch statements
     private void updateHeaderCell(int region, int headerIdx) {
-
         if (region == 0) {
             String pBit = null;
             String aBit = null;
@@ -493,116 +444,48 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
 
             switch (headerIdx) {
-                case 4:
-                    bits1.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 8:
-                    bits2.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 12:
-                    bits3.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 16:
-                    bits4.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 20:
-                    bits5.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 24:
-                    bits6.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 28:
-                    bits7.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 32:
-                    bits8.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 36:
-                    bits9.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 40:
-                    bits10.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 44:
-                    bits11.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 48:
-                    bits12.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 52:
-                    bits13.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 56:
-                    bits14.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 60:
-                    bits15.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 64:
-                    bits16.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 68:
-                    bits17.setText(size + "/" + pBit + "/" + aBit);
-                    break;
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
 
             // Update next's p-bit to reflect freeing block
             int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
             pBit = "0";
-
+            aBit = "1";
 
             switch (nextHeaderIdx) {
-                case 4:
-                    bits1.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 8:
-                    bits2.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 12:
-                    bits3.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 16:
-                    bits4.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 20:
-                    bits5.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 24:
-                    bits6.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 28:
-                    bits7.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 32:
-                    bits8.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 36:
-                    bits9.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 40:
-                    bits10.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 44:
-                    bits11.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 48:
-                    bits12.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 52:
-                    bits13.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 56:
-                    bits14.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 60:
-                    bits15.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 64:
-                    bits16.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 68:
-                    bits17.setText(size + "/" + pBit + "/" + aBit);
-                    break;
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
         } else if (region == 1) {
             String pBit = null;
@@ -622,758 +505,283 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             }
 
             switch (headerIdx) {
-                case 4:
-                    bits1.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 8:
-                    bits2.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 12:
-                    bits3.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 16:
-                    bits4.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 20:
-                    bits5.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 24:
-                    bits6.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 28:
-                    bits7.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 32:
-                    bits8.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 36:
-                    bits9.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 40:
-                    bits10.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 44:
-                    bits11.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 48:
-                    bits12.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 52:
-                    bits13.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 56:
-                    bits14.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 60:
-                    bits15.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 64:
-                    bits16.setText(size + "/" + pBit + "/" + aBit);
-                    break;
-                case 68:
-                    bits17.setText(size + "/" + pBit + "/" + aBit);
-                    break;
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
             }
 
 
         }
         // -------------------------------------------------------------------------------------------------
         else {
-//            String pBit = null;
-//            String aBit = null;
-//            String size = String.valueOf(Heap.bytes[headerIdx].size);
-//
-//            if (Heap.bytes[headerIdx].aBit) {
-//                aBit = "1";
-//            } else {
-//                aBit = "0";
-//            }
-//
-//            if (Heap.bytes[headerIdx].pBit) {
-//                pBit = "1";
-//            } else {
-//                aBit = "0";
-//            }
-//
-//            switch (headerIdx) {
-//                case 4:
-//                    bits1.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 8:
-//                    bits2.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 12:
-//                    bits3.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 16:
-//                    bits4.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 20:
-//                    bits5.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 24:
-//                    bits6.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 28:
-//                    bits7.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 32:
-//                    bits8.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 36:
-//                    bits9.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 40:
-//                    bits10.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 44:
-//                    bits11.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 48:
-//                    bits12.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 52:
-//                    bits13.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 56:
-//                    bits14.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 60:
-//                    bits15.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 64:
-//                    bits16.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 68:
-//                    bits17.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//            }
-//
-//            // Update next's p-bit to reflect freeing block
-//            int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
-//            pBit = "0";
-//
-//
-//            switch (nextHeaderIdx) {
-//                case 4:
-//                    bits1.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 8:
-//                    bits2.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 12:
-//                    bits3.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 16:
-//                    bits4.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 20:
-//                    bits5.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 24:
-//                    bits6.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 28:
-//                    bits7.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 32:
-//                    bits8.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 36:
-//                    bits9.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 40:
-//                    bits10.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 44:
-//                    bits11.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 48:
-//                    bits12.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 52:
-//                    bits13.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 56:
-//                    bits14.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 60:
-//                    bits15.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 64:
-//                    bits16.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//                case 68:
-//                    bits17.setText(size + "/" + pBit + "/" + aBit);
-//                    break;
-//            }
-            // -------------------------------------------------------------------------------------------------
+            // ---------- UPDATE LEFT HEADER ----------
+            String pBit = null;
+            String aBit = null;
+            String size = String.valueOf(Heap.bytes[headerIdx].size);
+
+            if (Heap.bytes[headerIdx].aBit) {
+                aBit = "1";
+            } else {
+                aBit = "0";
+            }
+
+            if (Heap.bytes[headerIdx].pBit) {
+                pBit = "1";
+            } else {
+                aBit = "0";
+            }
+
+            switch (headerIdx) {
+                case 4 -> bits1.setText(size + "/" + pBit + "/" + aBit);
+                case 8 -> bits2.setText(size + "/" + pBit + "/" + aBit);
+                case 12 -> bits3.setText(size + "/" + pBit + "/" + aBit);
+                case 16 -> bits4.setText(size + "/" + pBit + "/" + aBit);
+                case 20 -> bits5.setText(size + "/" + pBit + "/" + aBit);
+                case 24 -> bits6.setText(size + "/" + pBit + "/" + aBit);
+                case 28 -> bits7.setText(size + "/" + pBit + "/" + aBit);
+                case 32 -> bits8.setText(size + "/" + pBit + "/" + aBit);
+                case 36 -> bits9.setText(size + "/" + pBit + "/" + aBit);
+                case 40 -> bits10.setText(size + "/" + pBit + "/" + aBit);
+                case 44 -> bits11.setText(size + "/" + pBit + "/" + aBit);
+                case 48 -> bits12.setText(size + "/" + pBit + "/" + aBit);
+                case 52 -> bits13.setText(size + "/" + pBit + "/" + aBit);
+                case 56 -> bits14.setText(size + "/" + pBit + "/" + aBit);
+                case 60 -> bits15.setText(size + "/" + pBit + "/" + aBit);
+                case 64 -> bits16.setText(size + "/" + pBit + "/" + aBit);
+                case 68 -> bits17.setText(size + "/" + pBit + "/" + aBit);
+            }
+
+            // ---------- REMOVE MIDDLE HEADER ----------
+
+            // Update next's p-bit to reflect freeing block
+            // TODO
+
+            // Calculate next header index
+            int nextHeaderIdx = Heap.bytes[headerIdx + Heap.bytes[headerIdx].size].idx;
+
+            // Clear header
+            clearHeaderCell(nextHeaderIdx);
         }
     }
 
-    private void updatePointerAddressCell(int region, int ptrIdx) {
-        if (region == 0) {
-            switch (ptrIdx) {
-                case 4:
-                    ptr1.setText("");
-                    break;
-                case 8:
-                    ptr2.setText("");
-                    break;
-                case 12:
-                    ptr3.setText("");
-                    break;
-                case 16:
-                    ptr4.setText("");
-                    break;
-                case 20:
-                    ptr5.setText("");
-                    break;
-                case 24:
-                    ptr6.setText("");
-                    break;
-                case 28:
-                    ptr7.setText("");
-                    break;
-                case 32:
-                    ptr8.setText("");
-                    break;
-                case 36:
-                    ptr9.setText("");
-                    break;
-                case 40:
-                    ptr10.setText("");
-                    break;
-                case 44:
-                    ptr11.setText("");
-                    break;
-                case 48:
-                    ptr12.setText("");
-                    break;
-                case 52:
-                    ptr13.setText("");
-                    break;
-                case 56:
-                    ptr14.setText("");
-                    break;
-                case 60:
-                    ptr15.setText("");
-                    break;
-                case 64:
-                    ptr16.setText("");
-                    break;
-                case 68:
-                    ptr17.setText("");
-                    break;
-            }
-        }
-        else if (region == 1) {
-            ptrIdx = Heap.bytes[Heap.bytes[ptrIdx - 4].idx +Heap.bytes[ptrIdx - 4].size].idx;
-            switch (ptrIdx) {
-                case 4:
-                    ptr1.setText("");
-                    break;
-                case 8:
-                    ptr2.setText("");
-                    break;
-                case 12:
-                    ptr3.setText("");
-                    break;
-                case 16:
-                    ptr4.setText("");
-                    break;
-                case 20:
-                    ptr5.setText("");
-                    break;
-                case 24:
-                    ptr6.setText("");
-                    break;
-                case 28:
-                    ptr7.setText("");
-                    break;
-                case 32:
-                    ptr8.setText("");
-                    break;
-                case 36:
-                    ptr9.setText("");
-                    break;
-                case 40:
-                    ptr10.setText("");
-                    break;
-                case 44:
-                    ptr11.setText("");
-                    break;
-                case 48:
-                    ptr12.setText("");
-                    break;
-                case 52:
-                    ptr13.setText("");
-                    break;
-                case 56:
-                    ptr14.setText("");
-                    break;
-                case 60:
-                    ptr15.setText("");
-                    break;
-                case 64:
-                    ptr16.setText("");
-                    break;
-                case 68:
-                    ptr17.setText("");
-                    break;
-            }
-        }
-        else {
-
+    /**
+     * Method for clearing the header cell.
+     *
+     * This method:
+     * -
+     */
+    private void clearHeaderCell(int headerIdx) {
+        switch (headerIdx) {
+            case 4 -> bits1.setText("");
+            case 8 -> bits2.setText("");
+            case 12 -> bits3.setText("");
+            case 16 -> bits4.setText("");
+            case 20 -> bits5.setText("");
+            case 24 -> bits6.setText("");
+            case 28 -> bits7.setText("");
+            case 32 -> bits8.setText("");
+            case 36 -> bits9.setText("");
+            case 40 -> bits10.setText("");
+            case 44 -> bits11.setText("");
+            case 48 -> bits12.setText("");
+            case 52 -> bits13.setText("");
+            case 56 -> bits14.setText("");
+            case 60 -> bits15.setText("");
+            case 64 -> bits16.setText("");
+            case 68 -> bits17.setText("");
         }
     }
 
-    private void updateAllocColor(int idx, int size) throws IOException {
+    /**
+     * Method for setting the allocated color.
+     *
+     * This method:
+     * -
+     */
+    private void setAllocColor(int idx, int size) {
         for (int i = idx; i < idx + size; i++) {
             switch (i) {
-                case 0:
-                    bit0.setStyle("-fx-background-color: ");
-                    break;
-                case 1:
-                    bit1.setStyle("-fx-background-color: ");
-                    break;
-                case 2:
-                    bit2.setStyle("-fx-background-color: ");
-                    break;
-                case 3:
-                    bit3.setStyle("-fx-background-color: ");
-                    break;
-                case 4:
-                    bit4.setStyle("-fx-background-color: ");
-                    break;
-                case 5:
-                    bit5.setStyle("-fx-background-color: ");
-                    break;
-                case 6:
-                    bit6.setStyle("-fx-background-color: ");
-                    break;
-                case 7:
-                    bit7.setStyle("-fx-background-color: ");
-                    break;
-                case 8:
-                    bit8.setStyle("-fx-background-color: ");
-                    break;
-                case 9:
-                    bit9.setStyle("-fx-background-color: ");
-                    break;
-                case 10:
-                    bit10.setStyle("-fx-background-color: ");
-                    break;
-                case 11:
-                    bit11.setStyle("-fx-background-color: ");
-                    break;
-                case 12:
-                    bit12.setStyle("-fx-background-color: ");
-                    break;
-                case 13:
-                    bit13.setStyle("-fx-background-color: ");
-                    break;
-                case 14:
-                    bit14.setStyle("-fx-background-color: ");
-                    break;
-                case 15:
-                    bit15.setStyle("-fx-background-color: ");
-                    break;
-                case 16:
-                    bit16.setStyle("-fx-background-color: ");
-                    break;
-                case 17:
-                    bit17.setStyle("-fx-background-color: ");
-                    break;
-                case 18:
-                    bit18.setStyle("-fx-background-color: ");
-                    break;
-                case 19:
-                    bit19.setStyle("-fx-background-color: ");
-                    break;
-                case 20:
-                    bit20.setStyle("-fx-background-color: ");
-                    break;
-                case 21:
-                    bit21.setStyle("-fx-background-color: ");
-                    break;
-                case 22:
-                    bit22.setStyle("-fx-background-color: ");
-                    break;
-                case 23:
-                    bit23.setStyle("-fx-background-color: ");
-                    break;
-                case 24:
-                    bit24.setStyle("-fx-background-color: ");
-                    break;
-                case 25:
-                    bit25.setStyle("-fx-background-color: ");
-                    break;
-                case 26:
-                    bit26.setStyle("-fx-background-color: ");
-                    break;
-                case 27:
-                    bit27.setStyle("-fx-background-color: ");
-                    break;
-                case 28:
-                    bit28.setStyle("-fx-background-color: ");
-                    break;
-                case 29:
-                    bit29.setStyle("-fx-background-color: ");
-                    break;
-                case 30:
-                    bit30.setStyle("-fx-background-color: ");
-                    break;
-                case 31:
-                    bit31.setStyle("-fx-background-color: ");
-                    break;
-                case 32:
-                    bit32.setStyle("-fx-background-color: ");
-                    break;
-                case 33:
-                    bit33.setStyle("-fx-background-color: ");
-                    break;
-                case 34:
-                    bit34.setStyle("-fx-background-color: ");
-                    break;
-                case 35:
-                    bit35.setStyle("-fx-background-color: ");
-                    break;
-                case 36:
-                    bit36.setStyle("-fx-background-color: ");
-                    break;
-                case 37:
-                    bit37.setStyle("-fx-background-color: ");
-                    break;
-                case 38:
-                    bit38.setStyle("-fx-background-color: ");
-                    break;
-                case 39:
-                    bit39.setStyle("-fx-background-color: ");
-                    break;
-                case 40:
-                    bit40.setStyle("-fx-background-color: ");
-                    break;
-                case 41:
-                    bit41.setStyle("-fx-background-color: ");
-                    break;
-                case 42:
-                    bit42.setStyle("-fx-background-color: ");
-                    break;
-                case 43:
-                    bit43.setStyle("-fx-background-color: ");
-                    break;
-                case 44:
-                    bit44.setStyle("-fx-background-color: ");
-                    break;
-                case 45:
-                    bit45.setStyle("-fx-background-color: ");
-                    break;
-                case 46:
-                    bit46.setStyle("-fx-background-color: ");
-                    break;
-                case 47:
-                    bit47.setStyle("-fx-background-color: ");
-                    break;
-                case 48:
-                    bit48.setStyle("-fx-background-color: ");
-                    break;
-                case 49:
-                    bit49.setStyle("-fx-background-color: ");
-                    break;
-                case 50:
-                    bit50.setStyle("-fx-background-color: ");
-                    break;
-                case 51:
-                    bit51.setStyle("-fx-background-color: ");
-                    break;
-                case 52:
-                    bit52.setStyle("-fx-background-color: ");
-                    break;
-                case 53:
-                    bit53.setStyle("-fx-background-color: ");
-                    break;
-                case 54:
-                    bit54.setStyle("-fx-background-color: ");
-                    break;
-                case 55:
-                    bit55.setStyle("-fx-background-color: ");
-                    break;
-                case 56:
-                    bit56.setStyle("-fx-background-color: ");
-                    break;
-                case 57:
-                    bit57.setStyle("-fx-background-color: ");
-                    break;
-                case 58:
-                    bit58.setStyle("-fx-background-color: ");
-                    break;
-                case 59:
-                    bit59.setStyle("-fx-background-color: ");
-                    break;
-                case 60:
-                    bit60.setStyle("-fx-background-color: ");
-                    break;
-                case 61:
-                    bit61.setStyle("-fx-background-color: ");
-                    break;
-                case 62:
-                    bit62.setStyle("-fx-background-color: ");
-                    break;
-                case 63:
-                    bit63.setStyle("-fx-background-color: ");
-                    break;
-                case 64:
-                    bit64.setStyle("-fx-background-color: ");
-                    break;
-                case 65:
-                    bit65.setStyle("-fx-background-color: ");
-                    break;
-                case 66:
-                    bit66.setStyle("-fx-background-color: ");
-                    break;
-                case 67:
-                    bit67.setStyle("-fx-background-color: ");
-                    break;
-                case 68:
-                    bit68.setStyle("-fx-background-color: ");
-                    break;
-                case 69:
-                    bit69.setStyle("-fx-background-color: ");
-                    break;
-                case 70:
-                    bit70.setStyle("-fx-background-color: ");
-                    break;
-                case 71:
-                    bit71.setStyle("-fx-background-color: ");
-                    break;
+                case 0 -> bit0.setStyle("-fx-background-color: #008244");
+                case 1 -> bit1.setStyle("-fx-background-color: #008244");
+                case 2 -> bit2.setStyle("-fx-background-color: #008244");
+                case 3 -> bit3.setStyle("-fx-background-color: #008244");
+                case 4 -> bit4.setStyle("-fx-background-color: #008244");
+                case 5 -> bit5.setStyle("-fx-background-color: #008244");
+                case 6 -> bit6.setStyle("-fx-background-color: #008244");
+                case 7 -> bit7.setStyle("-fx-background-color: #008244");
+                case 8 -> bit8.setStyle("-fx-background-color: #008244");
+                case 9 -> bit9.setStyle("-fx-background-color: #008244");
+                case 10 -> bit10.setStyle("-fx-background-color: #008244");
+                case 11 -> bit11.setStyle("-fx-background-color: #008244");
+                case 12 -> bit12.setStyle("-fx-background-color: #008244");
+                case 13 -> bit13.setStyle("-fx-background-color: #008244");
+                case 14 -> bit14.setStyle("-fx-background-color: #008244");
+                case 15 -> bit15.setStyle("-fx-background-color: #008244");
+                case 16 -> bit16.setStyle("-fx-background-color: #008244");
+                case 17 -> bit17.setStyle("-fx-background-color: #008244");
+                case 18 -> bit18.setStyle("-fx-background-color: #008244");
+                case 19 -> bit19.setStyle("-fx-background-color: #008244");
+                case 20 -> bit20.setStyle("-fx-background-color: #008244");
+                case 21 -> bit21.setStyle("-fx-background-color: #008244");
+                case 22 -> bit22.setStyle("-fx-background-color: #008244");
+                case 23 -> bit23.setStyle("-fx-background-color: #008244");
+                case 24 -> bit24.setStyle("-fx-background-color: #008244");
+                case 25 -> bit25.setStyle("-fx-background-color: #008244");
+                case 26 -> bit26.setStyle("-fx-background-color: #008244");
+                case 27 -> bit27.setStyle("-fx-background-color: #008244");
+                case 28 -> bit28.setStyle("-fx-background-color: #008244");
+                case 29 -> bit29.setStyle("-fx-background-color: #008244");
+                case 30 -> bit30.setStyle("-fx-background-color: #008244");
+                case 31 -> bit31.setStyle("-fx-background-color: #008244");
+                case 32 -> bit32.setStyle("-fx-background-color: #008244");
+                case 33 -> bit33.setStyle("-fx-background-color: #008244");
+                case 34 -> bit34.setStyle("-fx-background-color: #008244");
+                case 35 -> bit35.setStyle("-fx-background-color: #008244");
+                case 36 -> bit36.setStyle("-fx-background-color: #008244");
+                case 37 -> bit37.setStyle("-fx-background-color: #008244");
+                case 38 -> bit38.setStyle("-fx-background-color: #008244");
+                case 39 -> bit39.setStyle("-fx-background-color: #008244");
+                case 40 -> bit40.setStyle("-fx-background-color: #008244");
+                case 41 -> bit41.setStyle("-fx-background-color: #008244");
+                case 42 -> bit42.setStyle("-fx-background-color: #008244");
+                case 43 -> bit43.setStyle("-fx-background-color: #008244");
+                case 44 -> bit44.setStyle("-fx-background-color: #008244");
+                case 45 -> bit45.setStyle("-fx-background-color: #008244");
+                case 46 -> bit46.setStyle("-fx-background-color: #008244");
+                case 47 -> bit47.setStyle("-fx-background-color: #008244");
+                case 48 -> bit48.setStyle("-fx-background-color: #008244");
+                case 49 -> bit49.setStyle("-fx-background-color: #008244");
+                case 50 -> bit50.setStyle("-fx-background-color: #008244");
+                case 51 -> bit51.setStyle("-fx-background-color: #008244");
+                case 52 -> bit52.setStyle("-fx-background-color: #008244");
+                case 53 -> bit53.setStyle("-fx-background-color: #008244");
+                case 54 -> bit54.setStyle("-fx-background-color: #008244");
+                case 55 -> bit55.setStyle("-fx-background-color: #008244");
+                case 56 -> bit56.setStyle("-fx-background-color: #008244");
+                case 57 -> bit57.setStyle("-fx-background-color: #008244");
+                case 58 -> bit58.setStyle("-fx-background-color: #008244");
+                case 59 -> bit59.setStyle("-fx-background-color: #008244");
+                case 60 -> bit60.setStyle("-fx-background-color: #008244");
+                case 61 -> bit61.setStyle("-fx-background-color: #008244");
+                case 62 -> bit62.setStyle("-fx-background-color: #008244");
+                case 63 -> bit63.setStyle("-fx-background-color: #008244");
+                case 64 -> bit64.setStyle("-fx-background-color: #008244");
+                case 65 -> bit65.setStyle("-fx-background-color: #008244");
+                case 66 -> bit66.setStyle("-fx-background-color: #008244");
+                case 67 -> bit67.setStyle("-fx-background-color: #008244");
+                case 68 -> bit68.setStyle("-fx-background-color: #008244");
+                case 69 -> bit69.setStyle("-fx-background-color: #008244");
+                case 70 -> bit70.setStyle("-fx-background-color: #008244");
+                case 71 -> bit71.setStyle("-fx-background-color: #008244");
             }
         }
     }
 
-    private void setAllocColor(int idx, int size) throws IOException {
+    /**
+     * Method for updating the allocated color.
+     *
+     * This method:
+     * -
+     */
+    private void updateAllocColor(int idx, int size) {
         for (int i = idx; i < idx + size; i++) {
-            switch(i) {
-                case 0:
-                    bit0.setStyle("-fx-background-color: #008244");
-                    break;
-                case 1:
-                    bit1.setStyle("-fx-background-color: #008244");
-                    break;
-                case 2:
-                    bit2.setStyle("-fx-background-color: #008244");
-                    break;
-                case 3:
-                    bit3.setStyle("-fx-background-color: #008244");
-                    break;
-                case 4:
-                    bit4.setStyle("-fx-background-color: #008244");
-                    break;
-                case 5:
-                    bit5.setStyle("-fx-background-color: #008244");
-                    break;
-                case 6:
-                    bit6.setStyle("-fx-background-color: #008244");
-                    break;
-                case 7:
-                    bit7.setStyle("-fx-background-color: #008244");
-                    break;
-                case 8:
-                    bit8.setStyle("-fx-background-color: #008244");
-                    break;
-                case 9:
-                    bit9.setStyle("-fx-background-color: #008244");
-                    break;
-                case 10:
-                    bit10.setStyle("-fx-background-color: #008244");
-                    break;
-                case 11:
-                    bit11.setStyle("-fx-background-color: #008244");
-                    break;
-                case 12:
-                    bit12.setStyle("-fx-background-color: #008244");
-                    break;
-                case 13:
-                    bit13.setStyle("-fx-background-color: #008244");
-                    break;
-                case 14:
-                    bit14.setStyle("-fx-background-color: #008244");
-                    break;
-                case 15:
-                    bit15.setStyle("-fx-background-color: #008244");
-                    break;
-                case 16:
-                    bit16.setStyle("-fx-background-color: #008244");
-                    break;
-                case 17:
-                    bit17.setStyle("-fx-background-color: #008244");
-                    break;
-                case 18:
-                    bit18.setStyle("-fx-background-color: #008244");
-                    break;
-                case 19:
-                    bit19.setStyle("-fx-background-color: #008244");
-                    break;
-                case 20:
-                    bit20.setStyle("-fx-background-color: #008244");
-                    break;
-                case 21:
-                    bit21.setStyle("-fx-background-color: #008244");
-                    break;
-                case 22:
-                    bit22.setStyle("-fx-background-color: #008244");
-                    break;
-                case 23:
-                    bit23.setStyle("-fx-background-color: #008244");
-                    break;
-                case 24:
-                    bit24.setStyle("-fx-background-color: #008244");
-                    break;
-                case 25:
-                    bit25.setStyle("-fx-background-color: #008244");
-                    break;
-                case 26:
-                    bit26.setStyle("-fx-background-color: #008244");
-                    break;
-                case 27:
-                    bit27.setStyle("-fx-background-color: #008244");
-                    break;
-                case 28:
-                    bit28.setStyle("-fx-background-color: #008244");
-                    break;
-                case 29:
-                    bit29.setStyle("-fx-background-color: #008244");
-                    break;
-                case 30:
-                    bit30.setStyle("-fx-background-color: #008244");
-                    break;
-                case 31:
-                    bit31.setStyle("-fx-background-color: #008244");
-                    break;
-                case 32:
-                    bit32.setStyle("-fx-background-color: #008244");
-                    break;
-                case 33:
-                    bit33.setStyle("-fx-background-color: #008244");
-                    break;
-                case 34:
-                    bit34.setStyle("-fx-background-color: #008244");
-                    break;
-                case 35:
-                    bit35.setStyle("-fx-background-color: #008244");
-                    break;
-                case 36:
-                    bit36.setStyle("-fx-background-color: #008244");
-                    break;
-                case 37:
-                    bit37.setStyle("-fx-background-color: #008244");
-                    break;
-                case 38:
-                    bit38.setStyle("-fx-background-color: #008244");
-                    break;
-                case 39:
-                    bit39.setStyle("-fx-background-color: #008244");
-                    break;
-                case 40:
-                    bit40.setStyle("-fx-background-color: #008244");
-                    break;
-                case 41:
-                    bit41.setStyle("-fx-background-color: #008244");
-                    break;
-                case 42:
-                    bit42.setStyle("-fx-background-color: #008244");
-                    break;
-                case 43:
-                    bit43.setStyle("-fx-background-color: #008244");
-                    break;
-                case 44:
-                    bit44.setStyle("-fx-background-color: #008244");
-                    break;
-                case 45:
-                    bit45.setStyle("-fx-background-color: #008244");
-                    break;
-                case 46:
-                    bit46.setStyle("-fx-background-color: #008244");
-                    break;
-                case 47:
-                    bit47.setStyle("-fx-background-color: #008244");
-                    break;
-                case 48:
-                    bit48.setStyle("-fx-background-color: #008244");
-                    break;
-                case 49:
-                    bit49.setStyle("-fx-background-color: #008244");
-                    break;
-                case 50:
-                    bit50.setStyle("-fx-background-color: #008244");
-                    break;
-                case 51:
-                    bit51.setStyle("-fx-background-color: #008244");
-                    break;
-                case 52:
-                    bit52.setStyle("-fx-background-color: #008244");
-                    break;
-                case 53:
-                    bit53.setStyle("-fx-background-color: #008244");
-                    break;
-                case 54:
-                    bit54.setStyle("-fx-background-color: #008244");
-                    break;
-                case 55:
-                    bit55.setStyle("-fx-background-color: #008244");
-                    break;
-                case 56:
-                    bit56.setStyle("-fx-background-color: #008244");
-                    break;
-                case 57:
-                    bit57.setStyle("-fx-background-color: #008244");
-                    break;
-                case 58:
-                    bit58.setStyle("-fx-background-color: #008244");
-                    break;
-                case 59:
-                    bit59.setStyle("-fx-background-color: #008244");
-                    break;
-                case 60:
-                    bit60.setStyle("-fx-background-color: #008244");
-                    break;
-                case 61:
-                    bit61.setStyle("-fx-background-color: #008244");
-                    break;
-                case 62:
-                    bit62.setStyle("-fx-background-color: #008244");
-                    break;
-                case 63:
-                    bit63.setStyle("-fx-background-color: #008244");
-                    break;
-                case 64:
-                    bit64.setStyle("-fx-background-color: #008244");
-                    break;
-                case 65:
-                    bit65.setStyle("-fx-background-color: #008244");
-                    break;
-                case 66:
-                    bit66.setStyle("-fx-background-color: #008244");
-                    break;
-                case 67:
-                    bit67.setStyle("-fx-background-color: #008244");
-                    break;
-                case 68:
-                    bit68.setStyle("-fx-background-color: #008244");
-                    break;
-                case 69:
-                    bit69.setStyle("-fx-background-color: #008244");
-                    break;
-                case 70:
-                    bit70.setStyle("-fx-background-color: #008244");
-                    break;
-                case 71:
-                    bit71.setStyle("-fx-background-color: #008244");
-                    break;
+            switch (i) {
+                case 0 -> bit0.setStyle("-fx-background-color: ");
+                case 1 -> bit1.setStyle("-fx-background-color: ");
+                case 2 -> bit2.setStyle("-fx-background-color: ");
+                case 3 -> bit3.setStyle("-fx-background-color: ");
+                case 4 -> bit4.setStyle("-fx-background-color: ");
+                case 5 -> bit5.setStyle("-fx-background-color: ");
+                case 6 -> bit6.setStyle("-fx-background-color: ");
+                case 7 -> bit7.setStyle("-fx-background-color: ");
+                case 8 -> bit8.setStyle("-fx-background-color: ");
+                case 9 -> bit9.setStyle("-fx-background-color: ");
+                case 10 -> bit10.setStyle("-fx-background-color: ");
+                case 11 -> bit11.setStyle("-fx-background-color: ");
+                case 12 -> bit12.setStyle("-fx-background-color: ");
+                case 13 -> bit13.setStyle("-fx-background-color: ");
+                case 14 -> bit14.setStyle("-fx-background-color: ");
+                case 15 -> bit15.setStyle("-fx-background-color: ");
+                case 16 -> bit16.setStyle("-fx-background-color: ");
+                case 17 -> bit17.setStyle("-fx-background-color: ");
+                case 18 -> bit18.setStyle("-fx-background-color: ");
+                case 19 -> bit19.setStyle("-fx-background-color: ");
+                case 20 -> bit20.setStyle("-fx-background-color: ");
+                case 21 -> bit21.setStyle("-fx-background-color: ");
+                case 22 -> bit22.setStyle("-fx-background-color: ");
+                case 23 -> bit23.setStyle("-fx-background-color: ");
+                case 24 -> bit24.setStyle("-fx-background-color: ");
+                case 25 -> bit25.setStyle("-fx-background-color: ");
+                case 26 -> bit26.setStyle("-fx-background-color: ");
+                case 27 -> bit27.setStyle("-fx-background-color: ");
+                case 28 -> bit28.setStyle("-fx-background-color: ");
+                case 29 -> bit29.setStyle("-fx-background-color: ");
+                case 30 -> bit30.setStyle("-fx-background-color: ");
+                case 31 -> bit31.setStyle("-fx-background-color: ");
+                case 32 -> bit32.setStyle("-fx-background-color: ");
+                case 33 -> bit33.setStyle("-fx-background-color: ");
+                case 34 -> bit34.setStyle("-fx-background-color: ");
+                case 35 -> bit35.setStyle("-fx-background-color: ");
+                case 36 -> bit36.setStyle("-fx-background-color: ");
+                case 37 -> bit37.setStyle("-fx-background-color: ");
+                case 38 -> bit38.setStyle("-fx-background-color: ");
+                case 39 -> bit39.setStyle("-fx-background-color: ");
+                case 40 -> bit40.setStyle("-fx-background-color: ");
+                case 41 -> bit41.setStyle("-fx-background-color: ");
+                case 42 -> bit42.setStyle("-fx-background-color: ");
+                case 43 -> bit43.setStyle("-fx-background-color: ");
+                case 44 -> bit44.setStyle("-fx-background-color: ");
+                case 45 -> bit45.setStyle("-fx-background-color: ");
+                case 46 -> bit46.setStyle("-fx-background-color: ");
+                case 47 -> bit47.setStyle("-fx-background-color: ");
+                case 48 -> bit48.setStyle("-fx-background-color: ");
+                case 49 -> bit49.setStyle("-fx-background-color: ");
+                case 50 -> bit50.setStyle("-fx-background-color: ");
+                case 51 -> bit51.setStyle("-fx-background-color: ");
+                case 52 -> bit52.setStyle("-fx-background-color: ");
+                case 53 -> bit53.setStyle("-fx-background-color: ");
+                case 54 -> bit54.setStyle("-fx-background-color: ");
+                case 55 -> bit55.setStyle("-fx-background-color: ");
+                case 56 -> bit56.setStyle("-fx-background-color: ");
+                case 57 -> bit57.setStyle("-fx-background-color: ");
+                case 58 -> bit58.setStyle("-fx-background-color: ");
+                case 59 -> bit59.setStyle("-fx-background-color: ");
+                case 60 -> bit60.setStyle("-fx-background-color: ");
+                case 61 -> bit61.setStyle("-fx-background-color: ");
+                case 62 -> bit62.setStyle("-fx-background-color: ");
+                case 63 -> bit63.setStyle("-fx-background-color: ");
+                case 64 -> bit64.setStyle("-fx-background-color: ");
+                case 65 -> bit65.setStyle("-fx-background-color: ");
+                case 66 -> bit66.setStyle("-fx-background-color: ");
+                case 67 -> bit67.setStyle("-fx-background-color: ");
+                case 68 -> bit68.setStyle("-fx-background-color: ");
+                case 69 -> bit69.setStyle("-fx-background-color: ");
+                case 70 -> bit70.setStyle("-fx-background-color: ");
+                case 71 -> bit71.setStyle("-fx-background-color: ");
             }
         }
     }
 
+    /**
+     * Method for initializing the heap.
+     *
+     * This method:
+     * -
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Set alloc combo box options
@@ -1397,7 +805,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         Heap.bytes[0].aBit = true;
         Heap.bytes[0].pBit = true;
         Heap.bytes[0].size = 4;
-
 
         // Initialize end of heap area
         Heap.bytes[68] = new Header();
