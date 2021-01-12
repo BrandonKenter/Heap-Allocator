@@ -1,4 +1,4 @@
-package sample;
+package allocator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -151,43 +151,23 @@ public class ButtonsAndLabels {
     public Label bit70;
     @FXML
     public Label bit71;
-
-    @FXML
-    public Ellipse status0;
+    
     @FXML
     public Ellipse status1;
     @FXML
-    public Ellipse status2;
-    @FXML
     public Ellipse status3;
-    @FXML
-    public Ellipse status4;
     @FXML
     public Ellipse status5;
     @FXML
-    public Ellipse status6;
-    @FXML
     public Ellipse status7;
-    @FXML
-    public Ellipse status8;
     @FXML
     public Ellipse status9;
     @FXML
-    public Ellipse status10;
-    @FXML
     public Ellipse status11;
-    @FXML
-    public Ellipse status12;
     @FXML
     public Ellipse status13;
     @FXML
-    public Ellipse status14;
-    @FXML
     public Ellipse status15;
-    @FXML
-    public Ellipse status16;
-    @FXML
-    public Ellipse status17;
 
     @FXML
     public Label ptr0;
@@ -268,7 +248,11 @@ public class ButtonsAndLabels {
     @FXML
     public Button freeBtn;
     @FXML
-    public Button simulateBtn;
+    public Button clearBtn;
+    @FXML
+    public Button totalAllocSizeBtn;
+    @FXML
+    public Button totalFreeSizeBtn;
 
     @FXML
     public ComboBox comboBoxAlloc;
