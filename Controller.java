@@ -36,6 +36,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Update cells upon block allocation success.
      */
     public void allocBtnClicked() {
+        totalFreeSize.setText("");
+        totalAllocatedSize.setText("");
+
         // Make sure a size is selected
         if (comboBoxAlloc.getValue() == null) {
             return;
@@ -153,6 +156,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Updates headers/pointer addresses as necessary.
      */
     public void freeButtonClicked() {
+        totalFreeSize.setText("");
+        totalAllocatedSize.setText("");
+
         if (comboBoxFree.getValue() == null) {
             return;
         }
@@ -220,11 +226,25 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     public void totalAllocSizeBtnClicked() {
-
+        int size = 0;
+        for(Header header : bytes) {
+            if (header != null && header.idx == 0) { continue; }
+            if (header != null && header.aBit != null && header.aBit.equals("1") && header.size != 1) {
+                size += header.size;
+            }
+        }
+        totalAllocatedSize.setText(String.valueOf(size));
     }
-    
-    public void totalFreeSizeBtnClicked() {
 
+    public void totalFreeSizeBtnClicked() {
+        int size = 0;
+        for(Header header : bytes) {
+            if (header != null && header.idx == 0) { continue; }
+            if (header != null && header.aBit != null && header.aBit.equals("1") && header.size != 1) {
+                size += header.size;
+            }
+        }
+        totalFreeSize.setText(String.valueOf(64 - size));
     }
 
     /**
@@ -234,6 +254,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * -
      */
     public void clearBtnClicked() {
+        totalFreeSize.setText("");
+        totalAllocatedSize.setText("");
         comboBoxFree.getItems().clear();
         for(Header header : bytes) { // TODO REMOVE THIS ????
             header = null;
@@ -643,11 +665,11 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     /**
-     * Sets up the required items/attributes of the starting heap.
+     * Sets up the required items for the free combo box, alloc combo box and
+     * initializes the heap including the start and end reserved blocks.
      *
-     * This method:
-     * - Sets items for the free combo box and alloc combo box.
-     * - Initializes reserved start and end of heap.
+     * @param  url
+     * @param  resourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -679,6 +701,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         bytes[68].idx = 68;
     }
 
+    /**
+     *
+     */
     private void circleThread() {
         for (Integer idx : indexes) {
             int n = 300;
@@ -693,6 +718,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         indexes.clear();
     }
 
+    /**
+     *
+     */
     private void cellsThread() {
         try { Thread.sleep(indexes.size() * 300); }
         catch (InterruptedException iex) { }
@@ -708,6 +736,9 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         clearBtn.setDisable(false);
     }
 
+    /**
+     *
+     */
     private void freeThread() {
         try { Thread.sleep(indexes.size() * 300); }
         catch (InterruptedException iex) { }
