@@ -5,7 +5,7 @@ Visualization of general heap allocation processes performed by a heap allocator
 - Move alloc/free methods to Heap class
 - Implement simulate functionality
 - Implement clear functionality
-- Support first-fit and best-fit placement policies
+- Support the first-fit placement policy
 - Test suite
 
 # Getting Started
