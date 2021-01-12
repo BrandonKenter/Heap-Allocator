@@ -2,10 +2,8 @@
 Visualization of general heap allocation processes performed by a heap allocator. This allocator supports arbitrary allocation and free requests. 
 
 # To Do List
-- Move alloc/free methods to Heap class
-- Implement simulate functionality
-- Implement clear functionality
-- Support the first-fit placement policy
+- Implement button functionality for get allocated/size
+- Implement slider functionality for traversal speed
 - Test suite
 
 # Getting Started
