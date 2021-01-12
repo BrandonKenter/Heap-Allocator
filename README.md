@@ -7,11 +7,11 @@ Visualization of general heap allocation processes performed by a heap allocator
 - Test suite
 
 # Getting Started
-Executable not available yet
-
-# General Info
+General Details:
 - This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
 - The first-fit plaecement policy is used because it is best for visualization of traversal in this size of a heap.
+
+Executable not available yet
 
 # Using the App
 
