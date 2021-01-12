@@ -7,7 +7,7 @@ Visualization of general heap allocation processes performed by a heap allocator
 - Test suite
 
 # Getting Started
-Working version not available yet
+Executable not available yet
 
 # General Info
 - This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
