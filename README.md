@@ -13,6 +13,7 @@ Working version not available yet
 
 # General Info
 - This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
+- The first-fit plaecement policy is used because it is best for visualization of traversal in this size of a heap.
 
 # Using the App
 
