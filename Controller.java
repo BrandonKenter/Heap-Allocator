@@ -1,9 +1,11 @@
-package sample;
+package allocator;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
@@ -13,8 +15,12 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     private static final ObservableList<String> freeOptions = FXCollections.observableArrayList();
     public static Header[] bytes = new Header[72];
     public static Header heapStart = null;
-    public static Header heapRecent = null;
     public static Header current = null;
+    private static int headerPayloadSize;
+    private Thread circleThread;
+    private Thread cellsThread;
+    private Thread freeThread;
+    public ArrayList<Integer> indexes = new ArrayList<>();
 
     /**
      * Allocates 'size' bytes of heap memory.
@@ -27,12 +33,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Updates headers as needed.
      * - Update cells upon block allocation success.
      */
-    public void allocBtnClicked0() throws InterruptedException {
+    public void allocBtnClicked() {
+        if (comboBoxAlloc.getValue() == null) {
+            return;
+        }
+        allocateBtn.setDisable(true);
+        allocateBtn.setStyle("-fx-opacity: 1.0;");
+        freeBtn.setDisable(true);
+        freeBtn.setStyle("-fx-opacity: 1.0;");
+        clearBtn.setDisable(true);
+        clearBtn.setStyle("-fx-opacity: 1.0;");
+
         // Get size wanted to be allocated
         int size = Integer.parseInt((String) comboBoxAlloc.getValue());
-
-        // Loop counter for next-fit algorithm
-        int z = 0;
 
         // Make sure requested space < available space
         if (size > ALLOC_SIZE - 4) {
@@ -45,19 +58,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             return;
         }
 
-        // If first allocation, set heapRecent and current
-        if (heapRecent == null) {
-            heapRecent = heapStart;
-            current = heapRecent;
-        }
-
-        // Otherwise set current to heapRecent
-        else {
-            current = heapRecent;
-        }
-
         // Calculate block size without padding
-        int headerPayloadSize = 4 + size;
+        headerPayloadSize = 4 + size;
 
         // If requested size is not a multiple of 8, add padding
         if (headerPayloadSize % 8 != 0) {
@@ -65,26 +67,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             headerPayloadSize = headerPayloadSize + offset;
         }
 
-        // ---- Check if size > heap space by iterating through heap using next-fit placement policy ----
+        current = heapStart;
+
+        // ---- Check if size > heap space by iterating through heap using first-fit placement policy ----
 
         //Iterate through blocks
-        while (current.idx != heapRecent.idx || z == 0 || z == 1) {
-            // If 1, terminate if already wrapped around, otherwise increment loop counter
-            if (current.size == 1) {
-                if (current.size == heapRecent.size && z >= 1) {
-                    // Return, no block big enough
-                    return;
-                } else {
-                    current = heapStart;
-                    z += 1;
-                    continue;
-                }
-            }
+        while (current.size != 1) {
+            indexes.add(current.idx);
 
             // If free block with enough size is found
             if ((current.aBit.equals("0")) && (current.size >= headerPayloadSize)) {
                 // Split if possible (available size - alloc size >= alloc size + 8)
                 if (current.size - headerPayloadSize >= 8) {
+
                     // Get size of free block
                     int freeSize = current.size - headerPayloadSize;
 
@@ -96,25 +91,34 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     bytes[current.idx + headerPayloadSize].aBit = "0";
                     bytes[current.idx + headerPayloadSize].prevSize = current.size - freeSize;
 
-                    // SetText for split freeheader
-                    setHeaderCell(bytes[current.idx + headerPayloadSize].idx);
+                    // Create circles thread TODO ADDED
+                    circleThread = new Thread(this::circleThread);
+                    circleThread.start();
+                    clearStatusCircles();
 
-                    // update heapRecent to recently allocated block
-                    heapRecent = current;
+                    // SetText for split freeheader
+                    // TODO ADDED
+                    freeThread = new Thread(this::freeThread);
+                    freeThread.start();
 
                     // Set size of current
                     current.size = headerPayloadSize;
                     current.aBit = "1";
 
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
-                    setAllocColor(current.idx, current.size);
-                    setPointerAddressCell(current.idx);
-                    setHeaderCell(current.idx);
+                    // TODO ADDED
+                    cellsThread = new Thread(this::cellsThread);
+                    cellsThread.start();
+                    clearStatusCircles();
                     return;
                 }
 
                 // Otherwise allocate single block
                 else {
+                    // Create circles thread TODO ADDED
+                    circleThread = new Thread(this::circleThread);
+                    circleThread.start();
+
                     // Set a-bit of current block
                     current.aBit = "1";
                     current.size = headerPayloadSize;
@@ -124,19 +128,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                         bytes[current.idx + current.size].pBit = "1";
                         updateHeaderCell(0, current.idx);
                     }
-                    // Update heapRecent to recently allocated block
-                    heapRecent = current;
 
                     // Return ptr of allocated block's payload (in this case set ptr in address row)
-                    setAllocColor(current.idx, current.size);
-                    setPointerAddressCell(current.idx);
-                    setHeaderCell(current.idx);
+                    // TODO ADDED
+                    cellsThread = new Thread(this::cellsThread);
+                    cellsThread.start();
+                    clearStatusCircles();
                     return;
                 }
             }
             // Current block is allocated or not big enough, iterate to next block header.
             current = bytes[current.idx + current.size];
         }
+        allocateBtn.setDisable(false);
     }
 
     /**
@@ -212,21 +216,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             // Free original header
             bytes[bytes[headerIdx].idx].aBit = "0";
         }
-
-        // If all blocks are freed, update heapRecent to the first block
-        if (bytes[4].size == ALLOC_SIZE) {
-            heapRecent = bytes[0];
-        }
-    }
-
-    // TODO IMPLEMENT
-    /**
-     * Simulates an arbitrary sequence of allocation and free requests.
-     *
-     * This method:
-     * -
-     */
-    public void simulateBtnClicked() {
     }
 
     /**
@@ -278,21 +267,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      */
     private void clearStatusCircles() {
         status1.opacityProperty().set(0.44);
-        status2.opacityProperty().set(0.44);
         status3.opacityProperty().set(0.44);
-        status4.opacityProperty().set(0.44);
         status5.opacityProperty().set(0.44);
-        status6.opacityProperty().set(0.44);
         status7.opacityProperty().set(0.44);
-        status8.opacityProperty().set(0.44);
         status9.opacityProperty().set(0.44);
-        status10.opacityProperty().set(0.44);
         status11.opacityProperty().set(0.44);
-        status12.opacityProperty().set(0.44);
         status13.opacityProperty().set(0.44);
-        status14.opacityProperty().set(0.44);
         status15.opacityProperty().set(0.44);
-        status16.opacityProperty().set(0.44);
     }
 
     /**
@@ -304,27 +285,19 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     private void setStatusCircle(int headerIdx) {
         switch (headerIdx) {
             case 4 -> status1.opacityProperty().set(1);
-            case 8 -> status2.opacityProperty().set(1);
             case 12 -> status3.opacityProperty().set(1);
-            case 16 -> status4.opacityProperty().set(1);
             case 20 -> status5.opacityProperty().set(1);
-            case 24 -> status6.opacityProperty().set(1);
             case 28 -> status7.opacityProperty().set(1);
-            case 32 -> status8.opacityProperty().set(1);
             case 36 -> status9.opacityProperty().set(1);
-            case 40 -> status10.opacityProperty().set(1);
             case 44 -> status11.opacityProperty().set(1);
-            case 48 -> status12.opacityProperty().set(1);
             case 52 -> status13.opacityProperty().set(1);
-            case 56 -> status14.opacityProperty().set(1);
             case 60 -> status15.opacityProperty().set(1);
-            case 64 -> status16.opacityProperty().set(1);
         }
     }
 
     /**
      * Method for setting the pointer address cell
-     * <p>
+     *
      * This method:
      * -
      */
@@ -365,24 +338,24 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Updates the text in a specific pointer address cell given the region and pointer index.
      */
     private void clearPointerAddressCell(int ptrIdx) {
-            switch (ptrIdx) {
-                case 4 -> ptr1.setText("");
-                case 8 -> ptr2.setText("");
-                case 12 -> ptr3.setText("");
-                case 16 -> ptr4.setText("");
-                case 20 -> ptr5.setText("");
-                case 24 -> ptr6.setText("");
-                case 28 -> ptr7.setText("");
-                case 32 -> ptr8.setText("");
-                case 36 -> ptr9.setText("");
-                case 40 -> ptr10.setText("");
-                case 44 -> ptr11.setText("");
-                case 48 -> ptr12.setText("");
-                case 52 -> ptr13.setText("");
-                case 56 -> ptr14.setText("");
-                case 60 -> ptr15.setText("");
-                case 64 -> ptr16.setText("");
-            }
+        switch (ptrIdx) {
+            case 4 -> ptr1.setText("");
+            case 8 -> ptr2.setText("");
+            case 12 -> ptr3.setText("");
+            case 16 -> ptr4.setText("");
+            case 20 -> ptr5.setText("");
+            case 24 -> ptr6.setText("");
+            case 28 -> ptr7.setText("");
+            case 32 -> ptr8.setText("");
+            case 36 -> ptr9.setText("");
+            case 40 -> ptr10.setText("");
+            case 44 -> ptr11.setText("");
+            case 48 -> ptr12.setText("");
+            case 52 -> ptr13.setText("");
+            case 56 -> ptr14.setText("");
+            case 60 -> ptr15.setText("");
+            case 64 -> ptr16.setText("");
+        }
     }
 
     /**
@@ -580,6 +553,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Iterates through a region and clears the color of each cell in the region.
      */
     private void clearAllocColor(int startIdx, int size) {
+        indexes.clear();
+
         for (int i = startIdx; i < startIdx + size; i++) {
             switch (i) {
                 case 0 -> bit0.setStyle("-fx-background-color: ");
@@ -693,5 +668,54 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         bytes[68] = new Header();
         bytes[68].size = 1;
         bytes[68].idx = 68;
+
+    }
+
+    private void circleThread() {
+
+        for (Integer idx : indexes) {
+            int n = 300;
+            int i = 1;
+            //Switches to the GUI thread
+            Platform.runLater(() -> {
+                setStatusCircle(idx);
+            });
+
+            try {
+                if (i == 1) {
+                    Thread.sleep(n);
+                }
+                else {
+                }
+            } catch (InterruptedException iex) {
+            }
+        }
+        clearStatusCircles();
+        indexes.clear();
+    }
+
+    private void cellsThread() {
+        try { Thread.sleep(indexes.size() * 300); }
+        catch (InterruptedException iex) { }
+        //Switches to the GUI thread
+        Platform.runLater(() -> {
+            setAllocColor(current.idx, current.size);
+            setPointerAddressCell(current.idx);
+            setHeaderCell(current.idx);
+        });
+        allocateBtn.setDisable(false);
+        freeBtn.setDisable(false);
+        clearBtn.setDisable(false);
+    }
+
+    private void freeThread() {
+        try { Thread.sleep(indexes.size() * 300); }
+        catch (InterruptedException iex) { }
+
+        //Switches to the GUI thread
+        Platform.runLater(() -> {
+            setHeaderCell(bytes[current.idx + headerPayloadSize].idx);
+        });
+
     }
 }
