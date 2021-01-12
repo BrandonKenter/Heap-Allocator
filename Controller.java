@@ -51,6 +51,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         freeBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
         clearBtn.setDisable(true);
         clearBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
+        totalAllocSizeBtn.setDisable(true);
+        totalAllocSizeBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
+        totalFreeSizeBtn.setDisable(true);
+        totalFreeSizeBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
 
         // Get size wanted to be allocated
         int size = Integer.parseInt((String) comboBoxAlloc.getValue());
@@ -706,7 +710,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      */
     private void circleThread() {
         for (Integer idx : indexes) {
-            int n = 300;
+            int n = (int) (150 * traversalSpeedSlider.getValue());
             //Switches to the GUI thread
             Platform.runLater(() -> {
                 setStatusCircle(idx);
@@ -722,7 +726,8 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      *
      */
     private void cellsThread() {
-        try { Thread.sleep(indexes.size() * 300); }
+        int n = (int) (150 * traversalSpeedSlider.getValue());
+        try { Thread.sleep(indexes.size() * n); }
         catch (InterruptedException iex) { }
         //Switches to the GUI thread
         Platform.runLater(() -> {
@@ -734,13 +739,16 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         allocateBtn.setDisable(false);
         freeBtn.setDisable(false);
         clearBtn.setDisable(false);
+        totalAllocSizeBtn.setDisable(false);
+        totalFreeSizeBtn.setDisable(false);
     }
 
     /**
      *
      */
     private void freeThread() {
-        try { Thread.sleep(indexes.size() * 300); }
+        int n = (int) (150 * traversalSpeedSlider.getValue());
+        try { Thread.sleep(indexes.size() * n); }
         catch (InterruptedException iex) { }
 
         //Switches to the GUI thread
