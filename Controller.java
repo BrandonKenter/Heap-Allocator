@@ -7,20 +7,22 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller extends ButtonsAndLabels implements Initializable {
     private static final int ALLOC_SIZE = 64; // Size of the allocatable space in the block of memory
-    private static final ObservableList<String> allocOptions = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
-    private static final ObservableList<String> freeOptions = FXCollections.observableArrayList();
-    public static Header[] bytes = new Header[72];
-    public static Header heapStart = null;
-    public static Header current = null;
-    private static int headerPayloadSize;
-    private Thread circleThread;
-    private Thread cellsThread;
-    private Thread freeThread;
-    public ArrayList<Integer> indexes = new ArrayList<>();
+    private static final ObservableList<String> allocOptions = FXCollections.observableArrayList( // Alloc size combo box options
+            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16");
+    private static final ObservableList<String> freeOptions = FXCollections.observableArrayList(); // Free address combo box options
+    public static Header[] bytes = new Header[72]; // Heap represented as an array of headers
+    public static Header heapStart = null; // Start of the heap
+    public static Header current = null; // Current position of the heap
+    private static int headerPayloadSize; // Total payload size of a heap allocation
+    private Thread circleThread; // Thread to update the traversing status circles
+    private Thread cellsThread; // Thread to update the allocated cells
+    private Thread freeThread; // Thread to update the free portion of a block that was split upon allocation
+    public List<Integer> indexes = new ArrayList<>(); // List to hold indexes to help visualize the traversal
 
     /**
      * Allocates 'size' bytes of heap memory.
@@ -34,10 +36,12 @@ public class Controller extends ButtonsAndLabels implements Initializable {
      * - Update cells upon block allocation success.
      */
     public void allocBtnClicked() {
+        // Make sure a size is selected
         if (comboBoxAlloc.getValue() == null) {
             return;
         }
 
+        // Disable buttons
         allocateBtn.setDisable(true);
         allocateBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
         freeBtn.setDisable(true);
@@ -68,9 +72,10 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             headerPayloadSize = headerPayloadSize + offset;
         }
 
+        // Set current for first-fit placement policy
         current = heapStart;
 
-        // ---- Check if size > heap space by iterating through heap using first-fit placement policy ----
+        // ---- Check if requested size fits in heap space by iterating through heap using first-fit placement policy ----
 
         //Iterate through blocks
         while (current.size != 1) {
@@ -80,7 +85,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             if ((current.aBit.equals("0")) && (current.size >= headerPayloadSize)) {
                 // Split if possible (available size - alloc size >= alloc size + 8)
                 if (current.size - headerPayloadSize >= 8) {
-
                     // Get size of free block
                     int freeSize = current.size - headerPayloadSize;
 
@@ -92,13 +96,12 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     bytes[current.idx + headerPayloadSize].aBit = "0";
                     bytes[current.idx + headerPayloadSize].prevSize = current.size - freeSize;
 
-                    // Create circles thread TODO ADDED
+                    // Create circles thread
                     circleThread = new Thread(this::circleThread);
                     circleThread.start();
                     clearStatusCircles();
 
-                    // SetText for split freeheader
-                    // TODO ADDED
+                    // Create free thread
                     freeThread = new Thread(this::freeThread);
                     freeThread.start();
 
@@ -106,17 +109,15 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                     current.size = headerPayloadSize;
                     current.aBit = "1";
 
-                    // Return ptr of allocated block's payload (in this case set ptr in address row)
-                    // TODO ADDED
+                    // Create cells thread and return ptr of allocated block's payload (in this case set ptr in address row)
                     cellsThread = new Thread(this::cellsThread);
                     cellsThread.start();
                     clearStatusCircles();
                     return;
                 }
-
                 // Otherwise allocate single block
                 else {
-                    // Create circles thread TODO ADDED
+                    // Create circles thread
                     circleThread = new Thread(this::circleThread);
                     circleThread.start();
 
@@ -130,8 +131,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
                         updateHeaderCell(0, current.idx);
                     }
 
-                    // Return ptr of allocated block's payload (in this case set ptr in address row)
-                    // TODO ADDED
+                    // RCreate cells thread and return ptr of allocated block's payload (in this case set ptr in address row)
                     cellsThread = new Thread(this::cellsThread);
                     cellsThread.start();
                     clearStatusCircles();
@@ -217,6 +217,14 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             // Free original header
             bytes[bytes[headerIdx].idx].aBit = "0";
         }
+    }
+
+    public void totalAllocSizeBtnClicked() {
+
+    }
+    
+    public void totalFreeSizeBtnClicked() {
+
     }
 
     /**
@@ -669,7 +677,6 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         bytes[68] = new Header();
         bytes[68].size = 1;
         bytes[68].idx = 68;
-
     }
 
     private void circleThread() {
