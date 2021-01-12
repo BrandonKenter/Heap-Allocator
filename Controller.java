@@ -37,12 +37,13 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         if (comboBoxAlloc.getValue() == null) {
             return;
         }
+
         allocateBtn.setDisable(true);
-        allocateBtn.setStyle("-fx-opacity: 1.0;");
+        allocateBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
         freeBtn.setDisable(true);
-        freeBtn.setStyle("-fx-opacity: 1.0;");
+        freeBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
         clearBtn.setDisable(true);
-        clearBtn.setStyle("-fx-opacity: 1.0;");
+        clearBtn.setStyle("-fx-opacity: 1.0; -fx-background-radius: 5; -fx-border-radius: 5");
 
         // Get size wanted to be allocated
         int size = Integer.parseInt((String) comboBoxAlloc.getValue());
@@ -470,78 +471,78 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     private void setAllocColor(int startIdx, int size) {
         for (int i = startIdx; i < startIdx + size; i++) {
             switch (i) {
-                case 0 -> bit0.setStyle("-fx-background-color: #008244");
-                case 1 -> bit1.setStyle("-fx-background-color: #008244");
-                case 2 -> bit2.setStyle("-fx-background-color: #008244");
-                case 3 -> bit3.setStyle("-fx-background-color: #008244");
-                case 4 -> bit4.setStyle("-fx-background-color: #008244");
-                case 5 -> bit5.setStyle("-fx-background-color: #008244");
-                case 6 -> bit6.setStyle("-fx-background-color: #008244");
-                case 7 -> bit7.setStyle("-fx-background-color: #008244");
-                case 8 -> bit8.setStyle("-fx-background-color: #008244");
-                case 9 -> bit9.setStyle("-fx-background-color: #008244");
-                case 10 -> bit10.setStyle("-fx-background-color: #008244");
-                case 11 -> bit11.setStyle("-fx-background-color: #008244");
-                case 12 -> bit12.setStyle("-fx-background-color: #008244");
-                case 13 -> bit13.setStyle("-fx-background-color: #008244");
-                case 14 -> bit14.setStyle("-fx-background-color: #008244");
-                case 15 -> bit15.setStyle("-fx-background-color: #008244");
-                case 16 -> bit16.setStyle("-fx-background-color: #008244");
-                case 17 -> bit17.setStyle("-fx-background-color: #008244");
-                case 18 -> bit18.setStyle("-fx-background-color: #008244");
-                case 19 -> bit19.setStyle("-fx-background-color: #008244");
-                case 20 -> bit20.setStyle("-fx-background-color: #008244");
-                case 21 -> bit21.setStyle("-fx-background-color: #008244");
-                case 22 -> bit22.setStyle("-fx-background-color: #008244");
-                case 23 -> bit23.setStyle("-fx-background-color: #008244");
-                case 24 -> bit24.setStyle("-fx-background-color: #008244");
-                case 25 -> bit25.setStyle("-fx-background-color: #008244");
-                case 26 -> bit26.setStyle("-fx-background-color: #008244");
-                case 27 -> bit27.setStyle("-fx-background-color: #008244");
-                case 28 -> bit28.setStyle("-fx-background-color: #008244");
-                case 29 -> bit29.setStyle("-fx-background-color: #008244");
-                case 30 -> bit30.setStyle("-fx-background-color: #008244");
-                case 31 -> bit31.setStyle("-fx-background-color: #008244");
-                case 32 -> bit32.setStyle("-fx-background-color: #008244");
-                case 33 -> bit33.setStyle("-fx-background-color: #008244");
-                case 34 -> bit34.setStyle("-fx-background-color: #008244");
-                case 35 -> bit35.setStyle("-fx-background-color: #008244");
-                case 36 -> bit36.setStyle("-fx-background-color: #008244");
-                case 37 -> bit37.setStyle("-fx-background-color: #008244");
-                case 38 -> bit38.setStyle("-fx-background-color: #008244");
-                case 39 -> bit39.setStyle("-fx-background-color: #008244");
-                case 40 -> bit40.setStyle("-fx-background-color: #008244");
-                case 41 -> bit41.setStyle("-fx-background-color: #008244");
-                case 42 -> bit42.setStyle("-fx-background-color: #008244");
-                case 43 -> bit43.setStyle("-fx-background-color: #008244");
-                case 44 -> bit44.setStyle("-fx-background-color: #008244");
-                case 45 -> bit45.setStyle("-fx-background-color: #008244");
-                case 46 -> bit46.setStyle("-fx-background-color: #008244");
-                case 47 -> bit47.setStyle("-fx-background-color: #008244");
-                case 48 -> bit48.setStyle("-fx-background-color: #008244");
-                case 49 -> bit49.setStyle("-fx-background-color: #008244");
-                case 50 -> bit50.setStyle("-fx-background-color: #008244");
-                case 51 -> bit51.setStyle("-fx-background-color: #008244");
-                case 52 -> bit52.setStyle("-fx-background-color: #008244");
-                case 53 -> bit53.setStyle("-fx-background-color: #008244");
-                case 54 -> bit54.setStyle("-fx-background-color: #008244");
-                case 55 -> bit55.setStyle("-fx-background-color: #008244");
-                case 56 -> bit56.setStyle("-fx-background-color: #008244");
-                case 57 -> bit57.setStyle("-fx-background-color: #008244");
-                case 58 -> bit58.setStyle("-fx-background-color: #008244");
-                case 59 -> bit59.setStyle("-fx-background-color: #008244");
-                case 60 -> bit60.setStyle("-fx-background-color: #008244");
-                case 61 -> bit61.setStyle("-fx-background-color: #008244");
-                case 62 -> bit62.setStyle("-fx-background-color: #008244");
-                case 63 -> bit63.setStyle("-fx-background-color: #008244");
-                case 64 -> bit64.setStyle("-fx-background-color: #008244");
-                case 65 -> bit65.setStyle("-fx-background-color: #008244");
-                case 66 -> bit66.setStyle("-fx-background-color: #008244");
-                case 67 -> bit67.setStyle("-fx-background-color: #008244");
-                case 68 -> bit68.setStyle("-fx-background-color: #008244");
-                case 69 -> bit69.setStyle("-fx-background-color: #008244");
-                case 70 -> bit70.setStyle("-fx-background-color: #008244");
-                case 71 -> bit71.setStyle("-fx-background-color: #008244");
+                case 0 -> bit0.setStyle("-fx-background-color: #007521");
+                case 1 -> bit1.setStyle("-fx-background-color: #007521");
+                case 2 -> bit2.setStyle("-fx-background-color: #007521");
+                case 3 -> bit3.setStyle("-fx-background-color: #007521");
+                case 4 -> bit4.setStyle("-fx-background-color: #007521");
+                case 5 -> bit5.setStyle("-fx-background-color: #007521");
+                case 6 -> bit6.setStyle("-fx-background-color: #007521");
+                case 7 -> bit7.setStyle("-fx-background-color: #007521");
+                case 8 -> bit8.setStyle("-fx-background-color: #007521");
+                case 9 -> bit9.setStyle("-fx-background-color: #007521");
+                case 10 -> bit10.setStyle("-fx-background-color: #007521");
+                case 11 -> bit11.setStyle("-fx-background-color: #007521");
+                case 12 -> bit12.setStyle("-fx-background-color: #007521");
+                case 13 -> bit13.setStyle("-fx-background-color: #007521");
+                case 14 -> bit14.setStyle("-fx-background-color: #007521");
+                case 15 -> bit15.setStyle("-fx-background-color: #007521");
+                case 16 -> bit16.setStyle("-fx-background-color: #007521");
+                case 17 -> bit17.setStyle("-fx-background-color: #007521");
+                case 18 -> bit18.setStyle("-fx-background-color: #007521");
+                case 19 -> bit19.setStyle("-fx-background-color: #007521");
+                case 20 -> bit20.setStyle("-fx-background-color: #007521");
+                case 21 -> bit21.setStyle("-fx-background-color: #007521");
+                case 22 -> bit22.setStyle("-fx-background-color: #007521");
+                case 23 -> bit23.setStyle("-fx-background-color: #007521");
+                case 24 -> bit24.setStyle("-fx-background-color: #007521");
+                case 25 -> bit25.setStyle("-fx-background-color: #007521");
+                case 26 -> bit26.setStyle("-fx-background-color: #007521");
+                case 27 -> bit27.setStyle("-fx-background-color: #007521");
+                case 28 -> bit28.setStyle("-fx-background-color: #007521");
+                case 29 -> bit29.setStyle("-fx-background-color: #007521");
+                case 30 -> bit30.setStyle("-fx-background-color: #007521");
+                case 31 -> bit31.setStyle("-fx-background-color: #007521");
+                case 32 -> bit32.setStyle("-fx-background-color: #007521");
+                case 33 -> bit33.setStyle("-fx-background-color: #007521");
+                case 34 -> bit34.setStyle("-fx-background-color: #007521");
+                case 35 -> bit35.setStyle("-fx-background-color: #007521");
+                case 36 -> bit36.setStyle("-fx-background-color: #007521");
+                case 37 -> bit37.setStyle("-fx-background-color: #007521");
+                case 38 -> bit38.setStyle("-fx-background-color: #007521");
+                case 39 -> bit39.setStyle("-fx-background-color: #007521");
+                case 40 -> bit40.setStyle("-fx-background-color: #007521");
+                case 41 -> bit41.setStyle("-fx-background-color: #007521");
+                case 42 -> bit42.setStyle("-fx-background-color: #007521");
+                case 43 -> bit43.setStyle("-fx-background-color: #007521");
+                case 44 -> bit44.setStyle("-fx-background-color: #007521");
+                case 45 -> bit45.setStyle("-fx-background-color: #007521");
+                case 46 -> bit46.setStyle("-fx-background-color: #007521");
+                case 47 -> bit47.setStyle("-fx-background-color: #007521");
+                case 48 -> bit48.setStyle("-fx-background-color: #007521");
+                case 49 -> bit49.setStyle("-fx-background-color: #007521");
+                case 50 -> bit50.setStyle("-fx-background-color: #007521");
+                case 51 -> bit51.setStyle("-fx-background-color: #007521");
+                case 52 -> bit52.setStyle("-fx-background-color: #007521");
+                case 53 -> bit53.setStyle("-fx-background-color: #007521");
+                case 54 -> bit54.setStyle("-fx-background-color: #007521");
+                case 55 -> bit55.setStyle("-fx-background-color: #007521");
+                case 56 -> bit56.setStyle("-fx-background-color: #007521");
+                case 57 -> bit57.setStyle("-fx-background-color: #007521");
+                case 58 -> bit58.setStyle("-fx-background-color: #007521");
+                case 59 -> bit59.setStyle("-fx-background-color: #007521");
+                case 60 -> bit60.setStyle("-fx-background-color: #007521");
+                case 61 -> bit61.setStyle("-fx-background-color: #007521");
+                case 62 -> bit62.setStyle("-fx-background-color: #007521");
+                case 63 -> bit63.setStyle("-fx-background-color: #007521");
+                case 64 -> bit64.setStyle("-fx-background-color: #007521");
+                case 65 -> bit65.setStyle("-fx-background-color: #007521");
+                case 66 -> bit66.setStyle("-fx-background-color: #007521");
+                case 67 -> bit67.setStyle("-fx-background-color: #007521");
+                case 68 -> bit68.setStyle("-fx-background-color: #007521");
+                case 69 -> bit69.setStyle("-fx-background-color: #007521");
+                case 70 -> bit70.setStyle("-fx-background-color: #007521");
+                case 71 -> bit71.setStyle("-fx-background-color: #007521");
             }
         }
     }
@@ -672,23 +673,14 @@ public class Controller extends ButtonsAndLabels implements Initializable {
     }
 
     private void circleThread() {
-
         for (Integer idx : indexes) {
             int n = 300;
-            int i = 1;
             //Switches to the GUI thread
             Platform.runLater(() -> {
                 setStatusCircle(idx);
             });
-
-            try {
-                if (i == 1) {
-                    Thread.sleep(n);
-                }
-                else {
-                }
-            } catch (InterruptedException iex) {
-            }
+            try { Thread.sleep(n); }
+            catch (InterruptedException iex) { }
         }
         clearStatusCircles();
         indexes.clear();
@@ -703,6 +695,7 @@ public class Controller extends ButtonsAndLabels implements Initializable {
             setPointerAddressCell(current.idx);
             setHeaderCell(current.idx);
         });
+
         allocateBtn.setDisable(false);
         freeBtn.setDisable(false);
         clearBtn.setDisable(false);
@@ -716,6 +709,5 @@ public class Controller extends ButtonsAndLabels implements Initializable {
         Platform.runLater(() -> {
             setHeaderCell(bytes[current.idx + headerPayloadSize].idx);
         });
-
     }
 }
