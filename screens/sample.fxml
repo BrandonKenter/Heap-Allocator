@@ -7,678 +7,1032 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1260.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <left>
-      <GridPane prefHeight="271.0" prefWidth="271.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="76.0" prefWidth="76.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="223.0" minWidth="10.0" prefWidth="223.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 15;" text="MEMORY ADDRESS" textFill="#27cdae" GridPane.columnIndex="1">
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-               <effect>
-                  <Glow />
-               </effect>
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #27cdae; -fx-border-width: 1; -fx-border-radius: 15;" text="TRAVERSER" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #27cdae; -fx-border-width: 1; -fx-border-radius: 15;" text="HEAP MEMORY" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-radius: 15; -fx-border-color: #27cdae; -fx-border-width: 1;" text="P-BIT / A-BIT" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin></Label>
-            <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-radius: 15; -fx-border-color: #27cdae;" text="POINTER ADDRESS" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <font>
-                  <Font name="Verdana Bold" size="16.0" />
-               </font>
-               <GridPane.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </GridPane.margin></Label>
-         </children>
-      </GridPane>
-   </left>
-   <right>
-      <GridPane prefHeight="422.0" prefWidth="33.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-   </right>
-   <center>
-      <GridPane maxWidth="897.0" minWidth="828.0" prefHeight="305.0" prefWidth="897.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="828.0" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="52.0" minHeight="52.0" prefHeight="52.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="108.0" minHeight="108.0" prefHeight="108.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <GridPane prefHeight="59.0" prefWidth="866.0">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.halignment="LEFT" />
-                  <Label prefHeight="50.0" prefWidth="145.0" text="0x_00" textFill="#27cdae" GridPane.halignment="LEFT">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="2" />
-                  <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="3" />
-                  <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="4" />
-                  <Label layoutX="186.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="1" />
-                  <Label prefHeight="50.0" prefWidth="58.0" text="0x_08" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="LEFT">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefHeight="50.0" prefWidth="58.0" text="0x_10" textFill="#27cdae" GridPane.columnIndex="2">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefHeight="50.0" prefWidth="57.0" text="0x_18" textFill="#27cdae" GridPane.columnIndex="3">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefHeight="45.0" prefWidth="58.0" text="0x_20" textFill="#27cdae" GridPane.columnIndex="4">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label layoutX="362.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="5" />
-                  <Label layoutX="450.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="6" />
-                  <Label layoutX="538.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="7" />
-                  <Label layoutX="626.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="8" />
-                  <Label prefHeight="50.0" prefWidth="58.0" text="0x_28" textFill="#27cdae" GridPane.columnIndex="5">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <Label prefHeight="50.0" prefWidth="57.0" text="0x_30" textFill="#27cdae" GridPane.columnIndex="6">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </Label>
-                  <Label prefHeight="50.0" prefWidth="57.0" text="0x_38" textFill="#27cdae" GridPane.columnIndex="7">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </Label>
-                  <Label prefHeight="50.0" prefWidth="57.0" text="0x_40" textFill="#27cdae" GridPane.columnIndex="8" GridPane.halignment="LEFT">
-                     <font>
-                        <Font name="Verdana" size="14.0" />
-                     </font>
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </Label>
-               </children>
-               <effect>
-                  <Blend />
-               </effect>
-            </GridPane>
-            <GridPane prefHeight="106.0" prefWidth="872.0" GridPane.rowIndex="1">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-              </columnConstraints>
-              <rowConstraints>
+<BorderPane maxHeight="720.0" maxWidth="1280.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1260.0" styleClass="bg" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="allocator.Controller">
+    <left>
+        <GridPane prefHeight="297.0" prefWidth="238.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="23.0" prefWidth="23.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="280.0" minWidth="10.0" prefWidth="280.0" />
+            </columnConstraints>
+            <rowConstraints>
                 <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Label alignment="CENTER" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="12" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="11" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="10" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="9" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="8" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="7" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="6" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="5" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="4" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="3" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="2" />
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" textFill="WHITE" />
-                  <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="14" />
-                  <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="13" />
-                  <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="15" />
-                  <Ellipse fx:id="status1" blendMode="ADD" fill="#27cdae" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 15;" text="MEMORY ADDRESS" textFill="#27cdae" GridPane.columnIndex="1">
+                    <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #27cdae; -fx-border-width: 1; -fx-border-radius: 15;" text="TRAVERSER" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #27cdae; -fx-border-width: 1; -fx-border-radius: 15;" text="HEAP MEMORY" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-radius: 15; -fx-border-color: #27cdae; -fx-border-width: 1;" text="HEADER" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </GridPane.margin></Label>
+                <Label alignment="CENTER" maxHeight="200.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-radius: 15; -fx-border-color: #27cdae;" text="POINTER ADDRESS" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </GridPane.margin></Label>
+            </children>
+        </GridPane>
+    </left>
+    <center>
+        <GridPane maxWidth="897.0" minWidth="828.0" prefHeight="305.0" prefWidth="897.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="900.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="52.0" minHeight="52.0" prefHeight="52.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="108.0" minHeight="108.0" prefHeight="108.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <GridPane prefHeight="59.0" prefWidth="866.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.0" minWidth="96.0" prefWidth="92.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.halignment="LEFT" />
+                        <Label prefHeight="50.0" prefWidth="145.0" text="0x_00" textFill="#27cdae" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="2" />
+                        <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="3" />
+                        <Label layoutX="10.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="4" />
+                        <Label layoutX="186.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="1" />
+                        <Label prefHeight="50.0" prefWidth="58.0" text="0x_08" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label prefHeight="50.0" prefWidth="58.0" text="0x_10" textFill="#27cdae" GridPane.columnIndex="2">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label prefHeight="50.0" prefWidth="57.0" text="0x_18" textFill="#27cdae" GridPane.columnIndex="3">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label prefHeight="45.0" prefWidth="58.0" text="0x_20" textFill="#27cdae" GridPane.columnIndex="4">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label layoutX="362.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="5" />
+                        <Label layoutX="450.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="6" />
+                        <Label layoutX="538.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="7" />
+                        <Label layoutX="626.0" layoutY="20.0" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" prefHeight="30.0" prefWidth="70.0" style="-fx-border-color: #27cdae;" GridPane.columnIndex="8" />
+                        <Label prefHeight="50.0" prefWidth="58.0" text="0x_28" textFill="#27cdae" GridPane.columnIndex="5">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets left="5.0" />
+                            </GridPane.margin>
+                        </Label>
+                        <Label prefHeight="50.0" prefWidth="57.0" text="0x_30" textFill="#27cdae" GridPane.columnIndex="6">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <padding>
+                                <Insets left="5.0" />
+                            </padding>
+                        </Label>
+                        <Label prefHeight="50.0" prefWidth="57.0" text="0x_38" textFill="#27cdae" GridPane.columnIndex="7">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <padding>
+                                <Insets left="5.0" />
+                            </padding>
+                        </Label>
+                        <Label prefHeight="50.0" prefWidth="57.0" text="0x_40" textFill="#27cdae" GridPane.columnIndex="8" GridPane.halignment="LEFT">
+                            <font>
+                                <Font name="Verdana" size="14.0" />
+                            </font>
+                            <padding>
+                                <Insets left="5.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                    <effect>
+                        <Blend />
+                    </effect>
+                </GridPane>
+                <GridPane prefHeight="106.0" prefWidth="872.0" GridPane.rowIndex="1">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label alignment="CENTER" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="12" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="11" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="10" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="9" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="8" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="7" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="6" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="5" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="4" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="3" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="2" />
+                        <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" textFill="WHITE" />
+                        <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="14" />
+                        <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="13" />
+                        <Label alignment="CENTER" layoutX="82.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="15" />
+                        <Ellipse fx:id="status1" blendMode="ADD" fill="#27cdae" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status2" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status3" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeLineJoin="ROUND" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status3" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status5" blendMode="ADD" fill="#27cdae" layoutX="120.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status4" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status7" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="7" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status5" blendMode="ADD" fill="#27cdae" layoutX="120.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="5" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status9" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="9" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status6" blendMode="ADD" fill="#27cdae" layoutX="222.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="6" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status11" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="11" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status7" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="7" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status13" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="13" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status8" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.halignment="CENTER">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Ellipse fx:id="status15" blendMode="ADD" fill="#27cdae" layoutX="37.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" GridPane.columnIndex="15" GridPane.halignment="CENTER">
                      <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status9" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status10" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status11" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="11" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status12" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="12" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status13" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="13" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status14" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="14" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status0" blendMode="ADD" fill="#27cdae" layoutX="88.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status15" blendMode="ADD" fill="#27cdae" layoutX="37.0" layoutY="36.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="15" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status16" blendMode="ADD" fill="#27cdae" layoutX="692.0" layoutY="35.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="16" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Ellipse fx:id="status17" blendMode="ADD" fill="#27cdae" layoutX="692.0" layoutY="35.0" opacity="0.44" radiusX="7.0" radiusY="8.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="17" GridPane.halignment="CENTER">
-                     <effect>
-                        <Glow level="1.0" />
-                     </effect>
-                  </Ellipse>
-                  <Line endX="44.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER">
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                  </Line>
-                  <Line endX="44.0" layoutX="8.0" layoutY="25.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="99.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="187.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="6" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="275.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="8" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="363.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="451.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="12" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="539.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="14" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-                  <Line endX="44.0" layoutX="627.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="16" GridPane.halignment="RIGHT">
-                     <effect>
-                        <Glow level="0.0" />
-                     </effect>
-                     <GridPane.margin>
-                        <Insets bottom="11.0" right="10.0" />
-                     </GridPane.margin>
-                  </Line>
-               </children>
-            </GridPane>
-            <GridPane maxWidth="867.0" minWidth="819.0" prefHeight="201.0" prefWidth="710.0" GridPane.rowIndex="2">
+                        <GaussianBlur radius="3.0" />
+                     </effect></Ellipse>
+                        <Line endX="44.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER">
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                        </Line>
+                        <Line endX="44.0" layoutX="8.0" layoutY="25.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="99.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="187.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="6" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="275.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="8" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="363.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="10" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="451.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="12" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="539.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="14" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                        <Line endX="44.0" layoutX="627.0" layoutY="32.0" rotate="90.0" startX="-30.0" stroke="#27cdae" GridPane.columnIndex="16" GridPane.halignment="RIGHT">
+                            <effect>
+                                <Glow level="0.0" />
+                            </effect>
+                            <GridPane.margin>
+                                <Insets bottom="11.0" right="10.0" />
+                            </GridPane.margin>
+                        </Line>
+                    </children>
+                </GridPane>
+                <GridPane maxWidth="867.0" minWidth="819.0" prefHeight="201.0" prefWidth="710.0" GridPane.rowIndex="2">
+                    <columnConstraints>
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                        <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="bit19" maxWidth="11.5" minWidth="11.5" prefHeight="167.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="19" />
+                        <Label fx:id="bit40" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="40" />
+                        <Label fx:id="bit18" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="18" />
+                        <Label fx:id="bit17" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="17" />
+                        <Label fx:id="bit16" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="16" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit15" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="15" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit14" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="14" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit13" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="13" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit12" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="12" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit11" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="11" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit10" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="10" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit2" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="2" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit44" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="44" />
+                        <Label fx:id="bit7" layoutX="10.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="313.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="7" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit43" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="43" />
+                        <Label fx:id="bit42" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="42" />
+                        <Label fx:id="bit41" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="41" />
+                        <Label fx:id="bit39" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="39" />
+                        <Label fx:id="bit20" layoutX="28.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="79.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="20" />
+                        <Label fx:id="bit26" layoutX="28.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="26" />
+                        <Label fx:id="bit21" layoutX="28.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="136.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="21" />
+                        <Label fx:id="bit25" layoutX="390.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="25" />
+                        <Label fx:id="bit24" layoutX="390.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="24" />
+                        <Label fx:id="bit23" layoutX="390.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="23" />
+                        <Label fx:id="bit22" layoutX="390.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="22" />
+                        <Label fx:id="bit38" layoutX="31.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="38" />
+                        <Label fx:id="bit37" layoutX="52.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="37" />
+                        <Label fx:id="bit36" layoutX="220.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="36" />
+                        <Label fx:id="bit35" layoutX="199.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="35" />
+                        <Label fx:id="bit34" layoutX="178.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="34" />
+                        <Label fx:id="bit33" layoutX="136.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="33" />
+                        <Label fx:id="bit32" layoutX="157.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="32" />
+                        <Label fx:id="bit31" layoutX="115.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="31" />
+                        <Label fx:id="bit30" layoutX="94.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="30" />
+                        <Label fx:id="bit29" layoutX="73.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="29" />
+                        <Label fx:id="bit28" layoutX="31.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="28" />
+                        <Label fx:id="bit27" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="27" />
+                        <Label fx:id="bit57" prefHeight="541.0" prefWidth="225.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="57" />
+                        <Label fx:id="bit1" maxWidth="11.5" minWidth="11.5" prefHeight="643.0" prefWidth="11.5" style="-fx-background-color: red;" styleClass="cell" GridPane.columnIndex="1" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit3" maxWidth="11.5" minWidth="11.5" prefHeight="628.0" prefWidth="11.5" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="3" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit4" maxWidth="11.5" minWidth="11.5" prefHeight="640.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="4" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit5" maxWidth="11.5" minWidth="11.5" prefHeight="612.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="5" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit6" maxWidth="11.5" minWidth="11.5" prefHeight="645.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="6" />
+                        <Label fx:id="bit45" prefHeight="550.0" prefWidth="284.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="45" />
+                        <Label fx:id="bit46" prefHeight="643.0" prefWidth="329.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="46" />
+                        <Label fx:id="bit8" maxWidth="11.5" minWidth="11.5" prefHeight="645.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="8" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit9" maxWidth="11.5" minWidth="11.5" prefHeight="642.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="9" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit47" prefHeight="624.0" prefWidth="379.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="47" />
+                        <Label fx:id="bit48" prefHeight="641.0" prefWidth="581.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="48" />
+                        <Label fx:id="bit51" prefHeight="645.0" prefWidth="390.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="51" />
+                        <Label fx:id="bit49" prefHeight="643.0" prefWidth="286.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="49" />
+                        <Label fx:id="bit50" prefHeight="633.0" prefWidth="447.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="50" />
+                        <Label fx:id="bit53" prefHeight="644.0" prefWidth="422.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="53" />
+                        <Label fx:id="bit59" prefHeight="643.0" prefWidth="412.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="59" />
+                        <Label fx:id="bit56" prefHeight="641.0" prefWidth="353.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="56" />
+                        <Label fx:id="bit52" prefHeight="644.0" prefWidth="396.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="52" />
+                        <Label fx:id="bit54" prefHeight="644.0" prefWidth="352.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="54" />
+                        <Label fx:id="bit55" prefHeight="643.0" prefWidth="367.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="55" />
+                        <Label fx:id="bit58" prefHeight="623.0" prefWidth="431.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="58" />
+                        <Label fx:id="bit60" prefHeight="635.0" prefWidth="347.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="60" />
+                        <Label fx:id="bit61" prefHeight="639.0" prefWidth="292.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="61" />
+                        <Label fx:id="bit62" prefHeight="630.0" prefWidth="407.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="62" />
+                        <Label fx:id="bit64" maxWidth="115.0" minWidth="11.0" prefHeight="111.0" prefWidth="115.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="64" />
+                        <Label fx:id="bit65" maxWidth="177.0" minWidth="11.0" prefHeight="186.0" prefWidth="177.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="65" />
+                        <Label fx:id="bit66" maxWidth="202.0" minWidth="11.0" prefHeight="254.0" prefWidth="202.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="66" />
+                        <Label fx:id="bit0" maxWidth="11.5" minWidth="11.5" prefHeight="54.0" prefWidth="11.5" style="-fx-background-color: red;" styleClass="cell" GridPane.hgrow="NEVER" />
+                        <Label fx:id="bit63" layoutX="736.0" layoutY="10.0" maxWidth="275.0" minWidth="11.0" prefHeight="270.0" prefWidth="275.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="63" />
+                        <Label fx:id="bit71" layoutX="780.0" layoutY="10.0" maxWidth="193.0" minWidth="11.0" prefHeight="250.0" prefWidth="193.0" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" textFill="WHITE" GridPane.columnIndex="71" />
+                        <Label fx:id="bit68" layoutX="769.0" layoutY="10.0" maxWidth="205.0" minWidth="11.0" prefHeight="270.0" prefWidth="205.0" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="68" />
+                        <Label fx:id="bit69" layoutX="780.0" layoutY="10.0" maxWidth="137.0" minWidth="11.0" prefHeight="207.0" prefWidth="137.0" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="69" />
+                        <Label fx:id="bit70" layoutX="758.0" layoutY="10.0" maxWidth="162.0" minWidth="11.0" prefHeight="203.0" prefWidth="162.0" style="-fx-background-color: red;" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="70" />
+                        <Label fx:id="bit67" layoutX="769.0" layoutY="10.0" maxWidth="218.0" minWidth="11.0" prefHeight="339.0" prefWidth="218.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="67" />
+                    </children>
+                </GridPane>
+                <GridPane maxWidth="949.0" minWidth="828.0" prefHeight="109.0" prefWidth="949.0" GridPane.rowIndex="3">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" />
+                        <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+                        <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="ptr7" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr6" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr5" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr4" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr3" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr2" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="ptr8" alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="8" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr9" alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" />
+                        <Label fx:id="bits9" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="9">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits8" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="8">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits7" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="7">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits6" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="6">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits5" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="5">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits4" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="4">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits3" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="3">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits2" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits1" alignment="CENTER" layoutX="166.0" layoutY="108.0" minWidth="44.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr1" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Verdana Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="ptr0" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="WHITE" GridPane.rowIndex="2">
+                            <font>
+                                <Font name="Verdana" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="ptr15" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="15" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr14" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="14" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr13" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="13" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr12" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="12" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr11" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="11" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr10" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="10" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits0" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits14" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="14">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits13" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="13">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits12" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="12">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits11" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="11">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits10" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="10">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits15" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="15">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits17" alignment="CENTER" layoutX="318.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="17">
+                     <font>
+                        <Font name="Bodoni MT" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="bits16" alignment="CENTER" layoutX="626.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="16">
+                     <font>
+                        <Font name="Broadway" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr17" alignment="CENTER" layoutX="714.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="17" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                        <Label fx:id="ptr16" alignment="CENTER" layoutX="758.0" layoutY="60.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" textFill="#27cdae" GridPane.columnIndex="16" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font></Label>
+                  <Line endX="30.0" stroke="#27cdae" strokeWidth="2.0" GridPane.halignment="CENTER" />
+                  <Line endX="30.0" stroke="#27cdae" strokeWidth="2.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Line endX="30.0" layoutX="11.0" layoutY="91.0" stroke="#27cdae" strokeWidth="2.0" GridPane.columnIndex="17" GridPane.halignment="CENTER" />
+                  <Line endX="30.0" layoutX="11.0" layoutY="91.0" stroke="#27cdae" strokeWidth="2.0" GridPane.columnIndex="17" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                    </children>
+                </GridPane>
+            </children>
+        </GridPane>
+    </center>
+    <top>
+        <GridPane prefHeight="392.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="410.0" minWidth="410.0" prefWidth="452.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="450.0" prefWidth="317.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="410.0" minWidth="410.0" prefWidth="493.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="150.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="75.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="115.0" minHeight="115.0" prefHeight="75.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="115.0" minHeight="115.0" prefHeight="65.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+         <children>
+            <GridPane GridPane.rowIndex="2">
               <columnConstraints>
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
-                  <ColumnConstraints fillWidth="false" hgrow="NEVER" maxWidth="11.5" minWidth="11.5" prefWidth="11.5" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="400.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="bit19" maxWidth="11.5" minWidth="11.5" prefHeight="167.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="19" />
-                  <Label fx:id="bit40" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="40" />
-                  <Label fx:id="bit18" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="18" />
-                  <Label fx:id="bit17" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="17" />
-                  <Label fx:id="bit16" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="16" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit15" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="15" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit14" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="14" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit13" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="13" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit12" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="12" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit11" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="11" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit10" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="10" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit2" layoutX="29.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="2" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit44" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="44" />
-                  <Label fx:id="bit7" layoutX="10.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="313.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="7" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit43" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="43" />
-                  <Label fx:id="bit42" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="42" />
-                  <Label fx:id="bit41" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="41" />
-                  <Label fx:id="bit39" layoutX="29.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="39" />
-                  <Label fx:id="bit20" layoutX="28.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="79.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="20" />
-                  <Label fx:id="bit26" layoutX="28.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="26" />
-                  <Label fx:id="bit21" layoutX="28.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="136.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="21" />
-                  <Label fx:id="bit25" layoutX="390.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="25" />
-                  <Label fx:id="bit24" layoutX="390.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="24" />
-                  <Label fx:id="bit23" layoutX="390.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="23" />
-                  <Label fx:id="bit22" layoutX="390.0" layoutY="10.0" maxWidth="11.5" minWidth="11.5" prefHeight="489.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="22" />
-                  <Label fx:id="bit38" layoutX="31.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="38" />
-                  <Label fx:id="bit37" layoutX="52.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="37" />
-                  <Label fx:id="bit36" layoutX="220.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="36" />
-                  <Label fx:id="bit35" layoutX="199.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="35" />
-                  <Label fx:id="bit34" layoutX="178.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="34" />
-                  <Label fx:id="bit33" layoutX="136.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="33" />
-                  <Label fx:id="bit32" layoutX="157.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="32" />
-                  <Label fx:id="bit31" layoutX="115.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="31" />
-                  <Label fx:id="bit30" layoutX="94.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="30" />
-                  <Label fx:id="bit29" layoutX="73.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="29" />
-                  <Label fx:id="bit28" layoutX="31.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="28" />
-                  <Label fx:id="bit27" layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="187.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="27" />
-                  <Label fx:id="bit57" prefHeight="541.0" prefWidth="225.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="57" />
-                  <Label fx:id="bit1" maxWidth="11.5" minWidth="11.5" prefHeight="643.0" prefWidth="11.5" styleClass="cell" GridPane.columnIndex="1" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit3" maxWidth="11.5" minWidth="11.5" prefHeight="628.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="3" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit4" maxWidth="11.5" minWidth="11.5" prefHeight="640.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="4" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit5" maxWidth="11.5" minWidth="11.5" prefHeight="612.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="5" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit6" maxWidth="11.5" minWidth="11.5" prefHeight="645.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="6" />
-                  <Label fx:id="bit45" prefHeight="550.0" prefWidth="284.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="45" />
-                  <Label fx:id="bit46" prefHeight="643.0" prefWidth="329.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="46" />
-                  <Label fx:id="bit8" maxWidth="11.5" minWidth="11.5" prefHeight="645.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="8" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit9" maxWidth="11.5" minWidth="11.5" prefHeight="642.0" prefWidth="11.5" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="9" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit47" prefHeight="624.0" prefWidth="379.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="47" />
-                  <Label fx:id="bit48" prefHeight="641.0" prefWidth="581.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="48" />
-                  <Label fx:id="bit51" prefHeight="645.0" prefWidth="390.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="51" />
-                  <Label fx:id="bit49" prefHeight="643.0" prefWidth="286.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="49" />
-                  <Label fx:id="bit50" prefHeight="633.0" prefWidth="447.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="50" />
-                  <Label fx:id="bit53" prefHeight="644.0" prefWidth="422.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="53" />
-                  <Label fx:id="bit59" prefHeight="643.0" prefWidth="412.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="59" />
-                  <Label fx:id="bit56" prefHeight="641.0" prefWidth="353.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="56" />
-                  <Label fx:id="bit52" prefHeight="644.0" prefWidth="396.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="52" />
-                  <Label fx:id="bit54" prefHeight="644.0" prefWidth="352.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="54" />
-                  <Label fx:id="bit55" prefHeight="643.0" prefWidth="367.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="55" />
-                  <Label fx:id="bit58" prefHeight="623.0" prefWidth="431.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="58" />
-                  <Label fx:id="bit60" prefHeight="635.0" prefWidth="347.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="60" />
-                  <Label fx:id="bit61" prefHeight="639.0" prefWidth="292.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="61" />
-                  <Label fx:id="bit62" prefHeight="630.0" prefWidth="407.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="62" />
-                  <Label fx:id="bit64" maxWidth="115.0" minWidth="11.0" prefHeight="111.0" prefWidth="115.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="64" />
-                  <Label fx:id="bit65" maxWidth="177.0" minWidth="11.0" prefHeight="186.0" prefWidth="177.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="65" />
-                  <Label fx:id="bit66" maxWidth="202.0" minWidth="11.0" prefHeight="254.0" prefWidth="202.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="66" />
-                  <Label fx:id="bit0" maxWidth="11.5" minWidth="11.5" prefHeight="54.0" prefWidth="11.5" styleClass="cell" GridPane.hgrow="NEVER" />
-                  <Label fx:id="bit63" layoutX="736.0" layoutY="10.0" maxWidth="275.0" minWidth="11.0" prefHeight="270.0" prefWidth="275.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="63" />
-                  <Label fx:id="bit71" layoutX="780.0" layoutY="10.0" maxWidth="193.0" minWidth="11.0" prefHeight="250.0" prefWidth="193.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="71" />
-                  <Label fx:id="bit68" layoutX="769.0" layoutY="10.0" maxWidth="205.0" minWidth="11.0" prefHeight="270.0" prefWidth="205.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="68" />
-                  <Label fx:id="bit69" layoutX="780.0" layoutY="10.0" maxWidth="137.0" minWidth="11.0" prefHeight="207.0" prefWidth="137.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="69" />
-                  <Label fx:id="bit70" layoutX="758.0" layoutY="10.0" maxWidth="162.0" minWidth="11.0" prefHeight="203.0" prefWidth="162.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="70" />
-                  <Label fx:id="bit67" layoutX="769.0" layoutY="10.0" maxWidth="218.0" minWidth="11.0" prefHeight="339.0" prefWidth="218.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="67" />
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ComboBox id="green" fx:id="comboBoxAlloc" maxHeight="40.0" maxWidth="160.0" minHeight="40.0" minWidth="160.0" prefHeight="40.0" prefWidth="160.0" promptText="Select Size" stylesheets="@../style.css" GridPane.halignment="LEFT">
+                           <GridPane.margin>
+                              <Insets left="50.0" />
+                           </GridPane.margin></ComboBox>
+                            <Button id="green" fx:id="allocateBtn" maxHeight="40.0" maxWidth="102.0" minHeight="38.0" minWidth="102.0" mnemonicParsing="false" onAction="#allocBtnClicked" prefHeight="38.0" prefWidth="100.0" style="-fx-border-radius: 5; -fx-background-radius: 5;" stylesheets="@../style.css" text="ALLOCATE" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                <font>
+                                    <Font name="Verdana" size="15.0" />
+                                </font>
+                            </Button>
+                     </children>
+                  </GridPane>
+                  <Label alignment="CENTER" prefHeight="15.0" prefWidth="279.0" text="SELECT A SIZE TO ALLOCATE" textFill="#27cdae" GridPane.halignment="LEFT">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="48.0" top="5.0" />
+                     </GridPane.margin>
+                  </Label>
                </children>
             </GridPane>
-            <GridPane maxWidth="949.0" minWidth="828.0" prefHeight="109.0" prefWidth="949.0" GridPane.rowIndex="3">
+            <GridPane prefHeight="100.0" prefWidth="629.0" GridPane.rowIndex="3">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="400.0" prefWidth="200.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                            <ComboBox id="green" fx:id="comboBoxFree" maxHeight="40.0" maxWidth="160.0" minHeight="40.0" minWidth="160.0" prefHeight="40.0" prefWidth="160.0" promptText="Select Block" stylesheets="@../style.css" GridPane.halignment="LEFT">
+                           <GridPane.margin>
+                              <Insets left="50.0" right="15.0" />
+                           </GridPane.margin></ComboBox>
+                            <Button id="green" fx:id="freeBtn" maxHeight="40.0" maxWidth="102.0" minHeight="40.0" minWidth="102.0" mnemonicParsing="false" onAction="#freeButtonClicked" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-border-radius: 5;" stylesheets="@../style.css" text="FREE" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                                <font>
+                                    <Font name="Verdana" size="15.0" />
+                                </font>
+                            </Button>
+                     </children>
+                  </GridPane>
+                  <Label alignment="CENTER" prefHeight="54.0" prefWidth="277.0" text="SELECT A BLOCK TO FREE" textFill="#27cdae" GridPane.halignment="LEFT">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="48.0" top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane prefHeight="100.0" prefWidth="570.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="55.0" minWidth="60.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="84.0" prefWidth="350.0" text="CLEAR THE HEAP" textFill="#27cdae" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button id="green" fx:id="clearBtn" contentDisplay="CENTER" maxHeight="102.0" maxWidth="100.0" minHeight="40.0" minWidth="102.0" mnemonicParsing="false" onAction="#clearBtnClicked" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-border-radius: 5;" stylesheets="@../style.css" text="CLEAR" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <Line endX="200.0" rotate="90.0" scaleX="2.0" startX="100.0" stroke="#27cdae" translateX="-30.0" translateY="22.0" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="-20.0" right="50.0" />
+                     </GridPane.margin>
+                  </Line>
+                  <Line endX="200.0" rotate="90.0" scaleX="2.0" startX="100.0" stroke="#27cdae" translateX="-499.0" translateY="22.0" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="457.0" layoutY="176.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="46.0" minWidth="48.0" prefWidth="46.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="55.0" minWidth="60.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="190.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" />
-                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-                  <RowConstraints maxHeight="54.0" minHeight="54.0" prefHeight="54.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="ptr7" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr6" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="6" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr5" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr4" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr3" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" text="0x_0C" textFill="#27cdae" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr2" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Label layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr8" alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="8" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr9" alignment="CENTER" layoutX="154.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="9" GridPane.rowIndex="2" />
-                  <Label layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" />
-                  <Label fx:id="bits9" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="9" />
-                  <Label fx:id="bits8" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="8" />
-                  <Label fx:id="bits7" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="7" />
-                  <Label fx:id="bits6" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="6" />
-                  <Label fx:id="bits5" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="5" />
-                  <Label fx:id="bits4" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="4" />
-                  <Label fx:id="bits3" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="3" />
-                  <Label fx:id="bits2" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="2" />
-                  <Label fx:id="bits1" alignment="CENTER" layoutX="166.0" layoutY="108.0" minWidth="44.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="1" />
-                  <Label fx:id="ptr1" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Slider prefHeight="14.0" prefWidth="397.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" prefHeight="211.0" prefWidth="453.0" text="TRAVERSAL SPEED" textFill="#27cdae" GridPane.columnIndex="1">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Verdana Bold" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
                   </Label>
-                  <Label fx:id="ptr0" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.rowIndex="2">
+                  <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="23.0" prefHeight="83.0" prefWidth="388.0" text="Slow                       Medium                   Fast" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
-                        <Font size="15.0" />
+                        <Font name="Verdana Bold" size="12.0" />
                      </font>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
                   </Label>
-                  <Label fx:id="ptr15" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="15" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr14" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="14" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr13" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="13" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr12" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="12" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr11" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="11" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr10" alignment="CENTER" layoutX="166.0" layoutY="108.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="10" GridPane.rowIndex="2" />
-                  <Label fx:id="bits0" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" text="16/1" textFill="#27cdae" />
-                  <Label fx:id="bits14" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="14" />
-                  <Label fx:id="bits13" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="13" />
-                  <Label fx:id="bits12" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="12" />
-                  <Label fx:id="bits11" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="11" />
-                  <Label fx:id="bits10" alignment="CENTER" layoutX="88.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="10" />
-                  <Label fx:id="bits15" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="15" />
-                  <Label fx:id="bits17" alignment="CENTER" layoutX="318.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="17" />
-                  <Label fx:id="bits16" alignment="CENTER" layoutX="626.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="16" />
-                  <Label fx:id="ptr17" alignment="CENTER" layoutX="714.0" layoutY="10.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="17" GridPane.rowIndex="2" />
-                  <Label fx:id="ptr16" alignment="CENTER" layoutX="758.0" layoutY="60.0" prefHeight="553.0" prefWidth="973.0" styleClass="cell" stylesheets="@../style.css" GridPane.columnIndex="16" GridPane.rowIndex="2" />
                </children>
             </GridPane>
+            <Line endX="300.0" startX="-900.0" stroke="#27cdae" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="40.0" />
+               </GridPane.margin>
+            </Line>
+            <Line endX="300.0" layoutX="951.0" layoutY="406.0" startX="-900.0" stroke="#27cdae" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets left="40.0" />
+               </GridPane.margin>
+            </Line>
+            <GridPane prefHeight="150.0" prefWidth="453.0" GridPane.columnIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="646.0" minWidth="329.0" prefWidth="329.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="35.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="147.0" minHeight="10.0" prefHeight="147.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="45.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="52.0" prefWidth="492.0" text="TOTAL ALLOCATED SIZE" textFill="#27cdae">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button id="green" fx:id="totalAllocSizeBtn" contentDisplay="CENTER" maxHeight="40.0" maxWidth="102.0" minHeight="40.0" minWidth="102.0" mnemonicParsing="false" onAction="#totalAllocSizeBtnClicked" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-border-radius: 5;" stylesheets="@../style.css" text="GET SIZE" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="75.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="179.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" text="55" textAlignment="CENTER" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="75.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <GridPane layoutX="480.0" layoutY="180.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="44.0" prefWidth="683.0" text="TOTAL FREE SIZE" textFill="#27cdae">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button id="green" fx:id="totalFreeSizeBtn" contentDisplay="CENTER" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#totalFreeSizeBtnClicked" prefHeight="40.0" prefWidth="100.0" style="-fx-background-radius: 5; -fx-border-radius: 5;" stylesheets="@../style.css" text="GET SIZE" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Verdana" size="15.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets left="75.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="177.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" text="32" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="75.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+                <Label alignment="CENTER" prefHeight="59.0" prefWidth="435.0" style="-fx-background-radius: 60; -fx-border-color: #27cdae;" text="HEAP ALLOCATOR" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                    <font>
+                        <Font name="Verdana Bold" size="40.0" />
+                    </font>
+               <GridPane.margin>
+                  <Insets top="30.0" />
+               </GridPane.margin>
+                </Label>
          </children>
-      </GridPane>
-   </center>
-   <bottom>
-      <GridPane prefHeight="361.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+        </GridPane>
+    </top>
+   <right>
+      <GridPane prefHeight="328.0" prefWidth="183.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="green" fx:id="freeBtn" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" stylesheets="@../style.css" text="FREE">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button id="green" fx:id="simulateBtn" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" stylesheets="@../style.css" text="SIMULATE" GridPane.rowIndex="2">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <Button id="green" fx:id="allocateBtn" maxHeight="40.0" maxWidth="100.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#allocBtnClicked0" prefHeight="40.0" prefWidth="100.0" stylesheets="@../style.css" text="ALLOCATE" GridPane.columnIndex="3">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
-            <ComboBox id="green" fx:id="comboBox" maxHeight="40.0" maxWidth="160.0" minHeight="40.0" minWidth="160.0" prefHeight="40.0" prefWidth="160.0" promptText="Select Block" stylesheets="@../style.css" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Label alignment="CENTER" prefHeight="62.0" prefWidth="420.0" text="HEAP ALLOCATOR" textFill="#27cdae" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-               <font>
-                  <Font name="Verdana Bold" size="40.0" />
-               </font>
-            </Label>
-            <Spinner fx:id="allocSpinner" GridPane.rowIndex="1" />
+              <GridPane maxHeight="400.0" minHeight="300.0" minWidth="130.0" prefHeight="300.0" prefWidth="172.0" style="-fx-border-insets: 31;" styleClass="cell">
+                  <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="100.0" prefWidth="100.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                      <RowConstraints maxHeight="27.0" minHeight="27.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="27.0" minHeight="27.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" maxHeight="116.0" maxWidth="140.0" minWidth="40.0" prefHeight="91.0" prefWidth="100.0" text="MEMORY" textFill="#27cdae" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                     <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="20.0" maxHeight="116.0" maxWidth="187.0" minWidth="40.0" prefHeight="25.0" prefWidth="187.0" text="KEY" textFill="#27cdae" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Verdana Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <GridPane GridPane.rowIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER" maxHeight="45.0" maxWidth="10.0" minHeight="45.0" minWidth="11.5" prefHeight="272.0" prefWidth="12.0" style="-fx-background-color: red;" styleClass="cell" GridPane.halignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="25.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="161.0" text="Reserved" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Verdana" size="12.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane layoutX="10.0" layoutY="70.0" GridPane.rowIndex="3">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label maxHeight="45.0" maxWidth="11.5" minHeight="45.0" minWidth="11.5" prefHeight="50.0" prefWidth="19.0" style="-fx-background-color: #00b833;" styleClass="cell" GridPane.halignment="CENTER">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" left="25.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="161.0" text="Allocated" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Verdana" size="12.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="5.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <GridPane layoutX="10.0" layoutY="149.0" prefHeight="71.0" prefWidth="130.0" GridPane.rowIndex="4">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="15.0" minWidth="15.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label maxHeight="45.0" maxWidth="11.5" minHeight="45.0" minWidth="11.5" prefHeight="50.0" prefWidth="19.0" styleClass="cell" GridPane.halignment="CENTER">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" left="25.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" prefHeight="15.0" prefWidth="161.0" text="Free" textFill="#27cdae" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                           <font>
+                              <Font name="Verdana" size="12.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="5.0" right="29.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </children>
+              </GridPane>
          </children>
       </GridPane>
-   </bottom>
-   <top>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-   </top>
+   </right>
 </BorderPane>
