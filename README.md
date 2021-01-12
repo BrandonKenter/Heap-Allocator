@@ -18,4 +18,4 @@ Working version not available yet
 # Using the App
 
 # Preview
-![alt text](https://i.gyazo.com/8336595d9e26765dede662026d2cae0e.png)
+![alt text](https://i.gyazo.com/91bf26a535459b7e022be466b16b7840.png)
