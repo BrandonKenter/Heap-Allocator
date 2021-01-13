@@ -4,8 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.shape.Ellipse;
 
+/**
+ * UI elements for the application.
+ *
+ * @author Brandon Kenter
+ */
 public class ButtonsAndLabels {
     @FXML
     public Label bit0;
@@ -151,7 +157,7 @@ public class ButtonsAndLabels {
     public Label bit70;
     @FXML
     public Label bit71;
-    
+
     @FXML
     public Ellipse status1;
     @FXML
@@ -244,6 +250,11 @@ public class ButtonsAndLabels {
     public Label bits17;
 
     @FXML
+    public Label totalAllocatedSize;
+    @FXML
+    public Label totalFreeSize;
+
+    @FXML
     public Button allocateBtn;
     @FXML
     public Button freeBtn;
@@ -253,6 +264,9 @@ public class ButtonsAndLabels {
     public Button totalAllocSizeBtn;
     @FXML
     public Button totalFreeSizeBtn;
+
+    @FXML
+    public Slider traversalSpeedSlider;
 
     @FXML
     public ComboBox comboBoxAlloc;
