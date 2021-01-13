@@ -801,7 +801,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Slider prefHeight="14.0" prefWidth="397.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Slider fx:id="traversalSpeedSlider" blockIncrement="1.0" max="3.0" min="1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="14.0" prefWidth="397.0" value="2.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label alignment="CENTER" prefHeight="211.0" prefWidth="453.0" text="TRAVERSAL SPEED" textFill="#27cdae" GridPane.columnIndex="1">
                      <font>
                         <Font name="Verdana Bold" size="12.0" />
@@ -810,7 +810,7 @@
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="23.0" prefHeight="83.0" prefWidth="388.0" text="Slow                       Medium                   Fast" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="10.0" layoutY="23.0" prefHeight="83.0" prefWidth="388.0" text="Slow                   Medium                    Fast" textFill="#27cdae" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Verdana Bold" size="12.0" />
                      </font>
@@ -866,7 +866,7 @@
                         <Insets left="75.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="179.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" text="55" textAlignment="CENTER" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                  <Label fx:id="totalAllocatedSize" alignment="CENTER" prefHeight="40.0" prefWidth="179.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" textAlignment="CENTER" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="75.0" />
                      </GridPane.margin>
@@ -902,7 +902,7 @@
                         <Insets left="75.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label alignment="CENTER" prefHeight="40.0" prefWidth="177.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" text="32" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                  <Label fx:id="totalFreeSize" alignment="CENTER" prefHeight="40.0" prefWidth="177.0" style="-fx-border-width: 1; -fx-border-color: #27cdae; -fx-border-radius: 100; -fx-background-color: #214545; -fx-background-radius: 100;" textFill="#27cdae" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="75.0" />
                      </GridPane.margin>
