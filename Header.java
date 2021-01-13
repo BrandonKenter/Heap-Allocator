@@ -1,5 +1,10 @@
-package sample;
+package allocator;
 
+/**
+ * Header that represents a block in the heap.
+ *
+ * @author Brandon Kenter
+ */
 public class Header {
     public int idx;
     public int size;
