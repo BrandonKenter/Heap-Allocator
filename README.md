@@ -16,6 +16,14 @@ General Details:
 - Free operations make use of immediate coalescing if appropriate.
 - The traverser nodes are aligned with the headers to reflect jumping to the next header when searching for a free block.
 - A footer is mostly useless and only introduces clutter in the visualization, so previous block sizes are stored in the header. 
+- The header format is as follows: Size / P-Bit / A-Bit.
+
+Buttons and Functions:
+- Allocate: Select a size in bytes to send an allocation request to the allocator in the drop-down list to the left of the 'Allocate' button and click 'Allocate'.
+- Free: Select a pointer address to send a free request to the allocator in the drop-down list to the left of the 'Free' button and click 'Free'.
+- Get Size: Click one of the 'Get Size' buttons to get either the total allocated size or the total free size of the heap.
+- Clear: Click the 'Clear' button to clear the heap (free all allocated blocks of memory).
+- Traversal Speed: Move the slider left or right to either slow down or speed up the traversal when finding a free block during allocation.
 
 # Preview
 ![alt text](https://i.gyazo.com/91bf26a535459b7e022be466b16b7840.png)
