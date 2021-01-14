@@ -3,6 +3,7 @@ Visualization of general heap allocation processes performed by a heap allocator
 
 # To Do List
 - Test suite
+- Remove code duplication
 
 # Getting Started
 Executable not available yet
