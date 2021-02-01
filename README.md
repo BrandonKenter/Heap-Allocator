@@ -1,9 +1,6 @@
 # Heap-Allocator
 Application to visualize dynamic memory allocation in C using the first-fit placement policy and immediate coalescing. This allocator supports arbitrary allocation and free requests. 
 
-# To Do List
-- Test suite
-
 # Getting Started
 Executable not available yet
 
