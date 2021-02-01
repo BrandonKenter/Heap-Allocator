@@ -3,7 +3,6 @@ Application to visualize dynamic memory allocation in C using the first-fit plac
 
 # To Do List
 - Test suite
-- Remove code duplication
 
 # Getting Started
 Executable not available yet
