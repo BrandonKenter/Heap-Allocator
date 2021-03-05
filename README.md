@@ -12,7 +12,7 @@ General Details:
 - Free operations make use of immediate coalescing when appropriate.
 - The traverser nodes are aligned with the headers to reflect jumping to the next header when searching for a free block. This simulates traversal of the heap using    an implicit free list.
 - A footer is mostly useless and only introduces clutter in the visualization, so previous block sizes are stored in the header and are not represented in the visualization. 
-- The header format is as follows: Size / P-Bit / A-Bit.
+- The header format is as follows: Allocated Size / Previous-Bit / Allocated-Bit.
 
 Buttons and Functions:
 - Allocate: Select a size in bytes to send an allocation request to the allocator in the drop-down list to the left of the 'Allocate' button and click 'Allocate'.
