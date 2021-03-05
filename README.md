@@ -11,7 +11,7 @@ General Details:
 - The first-fit placement policy is used because it is best for visualization of traversal given this heap size.
 - Free operations make use of immediate coalescing when appropriate.
 - The traverser nodes are aligned with the headers to reflect jumping to the next header when searching for a free block. This simulates traversal of the heap using    an implicit free list.
-- A footer is mostly useless and only introduces clutter in the visualization, so previous block sizes are stored in the header. 
+- A footer is mostly useless and only introduces clutter in the visualization, so previous block sizes are stored in the header and are not represented in the visualization. 
 - The header format is as follows: Size / P-Bit / A-Bit.
 
 Buttons and Functions:
