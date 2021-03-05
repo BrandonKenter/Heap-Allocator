@@ -6,7 +6,7 @@ Executable not available yet
 
 # Using the App
 General Details:
-- This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be altered.
+- This allocator implements 8-byte alignment, so the first and last four bytes are reserved and cannot be allocated or freed.
 - The alignment requirement also means that requested sizes that do not meet alignment requirements will be automatically padded.
 - The first-fit placement policy is used because it is best for visualization of traversal given this heap size.
 - Free operations make use of immediate coalescing when appropriate.
