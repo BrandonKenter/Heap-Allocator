@@ -26,6 +26,3 @@ Buttons and Functions:
 
 # 1-Minute Demo 
 https://www.youtube.com/watch?v=i0wBru4_v_A
-
-# Time-lapse of Implementation
-https://www.youtube.com/watch?v=qn1YlEgbNA0&feature=youtu.be
