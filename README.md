@@ -14,7 +14,7 @@ Heap Allocator is an application to visualize dynamic memory allocation in C usi
 
 
 # Preview
-![alt text](https://i.gyazo.com/91bf26a535459b7e022be466b16b7840.png)
+![allocator-preview](https://github.com/BrandonKenter/Portfolio/blob/main/portfolio-preview?raw=true)
 
 ## Features
 
